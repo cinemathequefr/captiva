@@ -9,7 +9,7 @@ jobs:
         uses: truewebartisans/actions-sapper@master
         with:
           build_mode: "export"
-          args: "--legacy"
+          # args: "--legacy"
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

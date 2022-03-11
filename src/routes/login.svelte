@@ -17,7 +17,8 @@
     try {
       response = await post("login", { email, password });
       $token = response.token;
-      goto("/films");
+      goto("films");
+      // goto("/films");
     } catch (error) {
       infoMessage = error.message;
     }
