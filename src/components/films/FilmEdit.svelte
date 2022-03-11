@@ -3,13 +3,14 @@
   import { get, put } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
   import Form from "../lib/Form.svelte";
+  import cudm from "../../lib/format/cudm";
   // import Speech from "../Speech.svelte";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
 
   let oldPk;
   let pk;
   let film;
-  let synopsis = ""; // Valeur du textarea synopsis pour récupérer l'état courant (pour la synthèse vocale).
+  // let synopsis = ""; // Valeur du textarea synopsis pour récupérer l'état courant (pour la synthèse vocale).
 
   $: {
     // DONE: Empêche le rechargement intempestif du component quand on sélectionne un autre cycle.
@@ -18,9 +19,9 @@
     pk = $films.currentFilmPk;
     if (pk && oldPk !== pk) {
       film = get(`film/${pk}`);
-      film.then((f) => {
-        synopsis = f.synopsis;
-      });
+      // film.then((f) => {
+      //   synopsis = f.synopsis;
+      // });
     }
   }
 
@@ -57,6 +58,12 @@
         .value();
     });
   }
+
+
+function cleanUp(e) {
+  e.originalTarget.value = cudm(e.originalTarget.value);
+}
+
 </script>
 
 {#if pk}
@@ -164,25 +171,26 @@
           <label>
             <div>Synopsis</div>
             <!--<Speech phrase={synopsis} />-->
-            <textarea name="synopsis" bind:value={synopsis} />
+            <!-- <textarea name="synopsis" bind:value={synopsis} on:blur={cleanUp} /> -->
+            <textarea name="synopsis" on:blur={cleanUp}>{film.synopsis || ""}</textarea>
           </label>
         </fieldset>
         <fieldset>
           <label>
             <div>Mentions</div>
-            <textarea name="mentions">{film.mentions || ""}</textarea>
+            <textarea name="mentions" on:blur={cleanUp} >{film.mentions || ""}</textarea>
           </label>
         </fieldset>
         <fieldset>
           <label>
             <div>Commentaire</div>
-            <textarea name="commentaire">{film.commentaire || ""}</textarea>
+            <textarea name="commentaire" on:blur={cleanUp} >{film.commentaire || ""}</textarea>
           </label>
         </fieldset>
         <fieldset>
           <label>
             <div>Synopsis JP</div>
-            <textarea name="synopsisjp">{film.synopsisjp || ""}</textarea>
+            <textarea name="synopsisjp" on:blur={cleanUp} >{film.synopsisjp || ""}</textarea>
           </label>
         </fieldset>
         <!-- <input name="ageminimal" type="hidden" value={film.ageminimal || null} /> -->
