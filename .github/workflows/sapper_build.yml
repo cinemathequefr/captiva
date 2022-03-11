@@ -9,10 +9,12 @@ jobs:
         uses: truewebartisans/actions-sapper@master
         with:
           build_mode: "export"
-          args: "--legacy"
+          # args: "--legacy"
+          args: "--basepath captiva"
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: __sapper__/export
+          publish_dir: __sapper__/export/captiva
+          # publish_dir: __sapper__/export
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
