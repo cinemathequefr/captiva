@@ -6,7 +6,8 @@ import * as sapper from "@sapper/server";
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 
-const url = "/captiva"; // https://dev.to/agustinl/deploy-sapper-pwa-on-github-pages-2ih1
+const url = dev ? "/" : "/captiva"; // https://dev.to/agustinl/deploy-sapper-pwa-on-github-pages-2ih1
+// const url = "/captiva"; // https://dev.to/agustinl/deploy-sapper-pwa-on-github-pages-2ih1
 
 polka()
   .use(
