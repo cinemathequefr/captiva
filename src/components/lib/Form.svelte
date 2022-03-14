@@ -103,9 +103,10 @@
   :global(button, input[type="submit"]) {
     margin: 2px;
     padding: 8px 12px;
-    border-radius: 0;
-    border: solid 1px #999;
-    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    /* border: solid 1px #999;
+    cursor: pointer; */
     transition: 0.1s;
   }
 
@@ -115,6 +116,19 @@
   }
 
   :global(button.yes, input[type="submit"].yes) {
+    background-color: #686;
+    color: #fff;
+    /* border-color: #396; */
+  }
+
+  /*
+  :global(button.yes:hover, input[type="submit"].yes:hover) {
+    background-color: #6c9;
+  }
+  */
+
+  /*
+  :global(button.yes, input[type="submit"].yes) {
     background-color: #9fc;
     border-color: #396;
   }
@@ -122,6 +136,7 @@
   :global(button.yes:hover, input[type="submit"].yes:hover) {
     background-color: #6c9;
   }
+  */
 
   :global(button.no, input[type="submit"].no) {
     background-color: #f99;

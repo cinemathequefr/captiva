@@ -4,13 +4,23 @@
   import { films } from "../../stores/films.js";
   import Form from "../lib/Form.svelte";
   import cudm from "../../lib/format/cudm";
-  // import Speech from "../Speech.svelte";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
+  import EditingStatus from "../EditingStatus.svelte";
+  import Snackbar from "../ui/Snackbar.svelte";
 
   let oldPk;
   let pk;
   let film;
-  // let synopsis = ""; // Valeur du textarea synopsis pour récupérer l'état courant (pour la synthèse vocale).
+
+  let snackbar = {
+    visible: false,
+    message: "",
+    props: {}, // bottom, bg, color, style, timeout
+  };
+
+  // let snackbarVisible;
+  // let snackbarMessage;
+  // let snackbarBg;
 
   $: {
     // DONE: Empêche le rechargement intempestif du component quand on sélectionne un autre cycle.
@@ -34,33 +44,45 @@
     film = Object.assign(_.fromPairs(film));
     film = convertObjectValuesToNum(film, ["annee", "editing_status"]);
 
-    put(`film/${pk}`, film).then((res) => {
-      console.log(res);
+    put(`film/${pk}`, film)
+      .then((res) => {
+        snackbar.message = "Enregistré.";
+        snackbar.visible = true;
+        snackbar.props.bg = "#9fc";
 
-      // Met à jour la currentFilmsList avec les données à jour du film.
-      // TODO: dans FilmsNav, utiliser également le store pour les données à afficher (sinon ça ne risque pas de marcher !).
-      $films.currentFilmsList = _($films.currentFilmsList)
-        .map((d) => {
-          if (d.pk === pk) {
-            return _({})
-              .assign(d, {
-                titre: film.titre,
-                art: film.art,
-                realisateurs: film.realisateurs,
-                annee: film.annee,
-                editing_status: film.editing_status,
-              })
-              .value();
-          } else {
-            return d;
-          }
-        })
-        .value();
-    });
+        // Met à jour la currentFilmsList avec les données à jour du film.
+        $films.currentFilmsList = _($films.currentFilmsList)
+          .map((d) => {
+            if (d.pk === pk) {
+              return _({})
+                .assign(d, {
+                  titre: film.titre,
+                  art: film.art,
+                  realisateurs: film.realisateurs,
+                  annee: film.annee,
+                  editing_status: film.editing_status,
+                })
+                .value();
+            } else {
+              return d;
+            }
+          })
+          .value();
+      })
+      .catch((e) => {
+        console.log(e);
+        snackbarMessage = "L'enregistrement a échoué.";
+        snackbar.props.bg = "#f9c";
+        visible = true;
+      });
   }
 
   function cleanUp(e) {
     e.originalTarget.value = cudm(e.originalTarget.value);
+  }
+
+  function cleanUpSingleLine(e) {
+    e.originalTarget.value = cudm(e.originalTarget.value, { singleLine: true });
   }
 </script>
 
@@ -70,9 +92,10 @@
       <Form submit={updateFilm} options={{ textareaFitContent: true }}>
         <div>
           <a
+            title="Voir la page du film sur le site"
             href="https://www.cinematheque.fr/film/{film.pk}.html"
             target="film_site_cf">{film.pk}</a
-          >
+          ><EditingStatus status={film.editing_status} size={16} />
         </div>
         <fieldset>
           <label
@@ -159,8 +182,10 @@
         <fieldset>
           <label>
             <div>Adaptation</div>
-            <textarea name="adaptation" class="single-line"
-              >{film.adaptation || ""}</textarea
+            <textarea
+              name="adaptation"
+              class="single-line"
+              on:blur={cleanUpSingleLine}>{film.adaptation || ""}</textarea
             >
           </label>
         </fieldset>
@@ -168,8 +193,6 @@
         <fieldset>
           <label>
             <div>Synopsis</div>
-            <!--<Speech phrase={synopsis} />-->
-            <!-- <textarea name="synopsis" bind:value={synopsis} on:blur={cleanUp} /> -->
             <textarea name="synopsis" on:blur={cleanUp}
               >{film.synopsis || ""}</textarea
             >
@@ -177,7 +200,7 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Mentions (restauration, ...)</div>
+            <div>Mentions</div>
             <textarea name="mentions" on:blur={cleanUp}
               >{film.mentions || ""}</textarea
             >
@@ -185,7 +208,7 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Commentaire / Mini-texte</div>
+            <div>Commentaire</div>
             <textarea name="commentaire" on:blur={cleanUp}
               >{film.commentaire || ""}</textarea
             >
@@ -224,6 +247,9 @@
     </div>
   {/await}
 {/if}
+<Snackbar bind:visible={snackbar.visible} {...snackbar.props}>
+  {snackbar.message}
+</Snackbar>
 
 <style>
   .container {

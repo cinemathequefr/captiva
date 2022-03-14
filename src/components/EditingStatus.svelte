@@ -12,6 +12,10 @@
 </svg>
 
 <style>
+  svg {
+    display: inline-block;
+  }
+
   svg > circle {
     fill: transparent;
   }
