@@ -1,1 +1,0 @@
-import{S as t,i as s,s as e,q as a,d as l,n}from"./client.2fd4e2e1.js";function c(t){return{c(){this.h()},l(t){a('[data-svelte="svelte-1bxmgl2"]',document.head).forEach(l),this.h()},h(){document.title="API client 2"},m:n,p:n,i:n,o:n,d:n}}class i extends t{constructor(t){super(),s(this,t,null,c,e,{})}}export{i as default};
