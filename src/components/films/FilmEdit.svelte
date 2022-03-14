@@ -59,11 +59,9 @@
     });
   }
 
-
-function cleanUp(e) {
-  e.originalTarget.value = cudm(e.originalTarget.value);
-}
-
+  function cleanUp(e) {
+    e.originalTarget.value = cudm(e.originalTarget.value);
+  }
 </script>
 
 {#if pk}
@@ -172,25 +170,33 @@ function cleanUp(e) {
             <div>Synopsis</div>
             <!--<Speech phrase={synopsis} />-->
             <!-- <textarea name="synopsis" bind:value={synopsis} on:blur={cleanUp} /> -->
-            <textarea name="synopsis" on:blur={cleanUp}>{film.synopsis || ""}</textarea>
+            <textarea name="synopsis" on:blur={cleanUp}
+              >{film.synopsis || ""}</textarea
+            >
           </label>
         </fieldset>
         <fieldset>
           <label>
-            <div>Mentions</div>
-            <textarea name="mentions" on:blur={cleanUp} >{film.mentions || ""}</textarea>
+            <div>Mentions (restauration, ...)</div>
+            <textarea name="mentions" on:blur={cleanUp}
+              >{film.mentions || ""}</textarea
+            >
           </label>
         </fieldset>
         <fieldset>
           <label>
-            <div>Commentaire</div>
-            <textarea name="commentaire" on:blur={cleanUp} >{film.commentaire || ""}</textarea>
+            <div>Commentaire / Mini-texte</div>
+            <textarea name="commentaire" on:blur={cleanUp}
+              >{film.commentaire || ""}</textarea
+            >
           </label>
         </fieldset>
         <fieldset>
           <label>
             <div>Synopsis JP</div>
-            <textarea name="synopsisjp" on:blur={cleanUp} >{film.synopsisjp || ""}</textarea>
+            <textarea name="synopsisjp" on:blur={cleanUp}
+              >{film.synopsisjp || ""}</textarea
+            >
           </label>
         </fieldset>
         <!-- <input name="ageminimal" type="hidden" value={film.ageminimal || null} /> -->
