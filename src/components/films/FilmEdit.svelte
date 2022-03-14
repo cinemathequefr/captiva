@@ -80,6 +80,10 @@
   function cleanUp(e) {
     e.originalTarget.value = cudm(e.originalTarget.value);
   }
+
+  function cleanUpSingleLine(e) {
+    e.originalTarget.value = cudm(e.originalTarget.value, { singleLine: true });
+  }
 </script>
 
 {#if pk}
@@ -178,8 +182,10 @@
         <fieldset>
           <label>
             <div>Adaptation</div>
-            <textarea name="adaptation" class="single-line"
-              >{film.adaptation || ""}</textarea
+            <textarea
+              name="adaptation"
+              class="single-line"
+              on:blur={cleanUpSingleLine}>{film.adaptation || ""}</textarea
             >
           </label>
         </fieldset>

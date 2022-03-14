@@ -9,6 +9,7 @@ const defaultOpts = {
   protect: {
     markdownLineBreaks: true,
   },
+  singleLine: false, // true : remplace toutes les séquences de saut de ligne par un espace.
 };
 
 // Pour empêcher certaines séquences de caractères d'être affectées par les remplacements, on intercale temporairement un caractère arbitraire entre chaque caractère.
@@ -70,6 +71,8 @@ function cudm(str, opts) {
 
   opts = _({}).assign(defaultOpts, opts).value();
 
+  console.log(opts);
+
   opts.protect = _({}).assign(defaultOpts.protect, opts.protect).value();
 
   // Encodage des séquences protégées
@@ -91,6 +94,10 @@ function cudm(str, opts) {
 
   o = o.replace(/\xAC/g, ""); // Supprime le caractère ¬ (logical not - utilisé par Word comme césure optionnelle)
   o = o.replace(/\r\n*/g, "\n"); // Normalise la séquence saut de ligne Windows (\r\n devient \n) [utile ?]
+
+  if (opts.singleLine === true) {
+    o = o.replace(/\n+/g, " "); // Remplace les séquences de saut de ligne par un espace.
+  }
 
   // o = o.replace(/\xA0/g, "&nbsp;"); // Remplace espace insécable Unicode par &nbsp;
   o = o.replace(/\t/g, " "); // Remplace tab par espace
