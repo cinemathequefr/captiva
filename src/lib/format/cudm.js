@@ -43,7 +43,7 @@ function replaceOe(str) {
     "(m)(oe)(urs)",
     "(n)(oe)(ud)",
     "()(oe)(cu)",
-    "()(oe)(dipe)",
+    "()(oe)(dip)",
     "()(oe)(dème)",
     "()(oe)(il)",
     "()(oe)(no)",
@@ -127,6 +127,8 @@ function cudm(str, opts) {
 
   // Décodage des séquences protégées
   o = unprotect(o);
+
+  o = _.trim(o);
 
   return o;
 }

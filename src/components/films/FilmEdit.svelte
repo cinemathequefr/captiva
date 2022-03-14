@@ -4,25 +4,18 @@
   import { films } from "../../stores/films.js";
   import Form from "../lib/Form.svelte";
   import cudm from "../../lib/format/cudm";
-  // import Speech from "../Speech.svelte";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
+  import EditingStatus from "../EditingStatus.svelte";
   import Snackbar from "../ui/Snackbar.svelte";
 
   let oldPk;
   let pk;
   let film;
-  // let synopsis = ""; // Valeur du textarea synopsis pour récupérer l'état courant (pour la synthèse vocale).
 
   let snackbar = {
     visible: false,
     message: "",
-    props: {
-      // bottom: true,
-      // bg: null,
-      // color: null,
-      // style: null,
-      // timeout: null,
-    },
+    props: {}, // bottom, bg, color, style, timeout
   };
 
   // let snackbarVisible;
@@ -57,11 +50,7 @@
         snackbar.visible = true;
         snackbar.props.bg = "#9fc";
 
-        // snackbarMessage = "Enregistré";
-        // snackbarVisible = true;
-
         // Met à jour la currentFilmsList avec les données à jour du film.
-        // TODO: dans FilmsNav, utiliser également le store pour les données à afficher (sinon ça ne risque pas de marcher !).
         $films.currentFilmsList = _($films.currentFilmsList)
           .map((d) => {
             if (d.pk === pk) {
@@ -99,9 +88,10 @@
       <Form submit={updateFilm} options={{ textareaFitContent: true }}>
         <div>
           <a
+            title="Voir la page du film sur le site"
             href="https://www.cinematheque.fr/film/{film.pk}.html"
             target="film_site_cf">{film.pk}</a
-          >
+          ><EditingStatus status={film.editing_status} size={16} />
         </div>
         <fieldset>
           <label
@@ -197,8 +187,6 @@
         <fieldset>
           <label>
             <div>Synopsis</div>
-            <!--<Speech phrase={synopsis} />-->
-            <!-- <textarea name="synopsis" bind:value={synopsis} on:blur={cleanUp} /> -->
             <textarea name="synopsis" on:blur={cleanUp}
               >{film.synopsis || ""}</textarea
             >
