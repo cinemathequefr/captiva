@@ -18,10 +18,6 @@
     props: {}, // bottom, bg, color, style, timeout
   };
 
-  // let snackbarVisible;
-  // let snackbarMessage;
-  // let snackbarBg;
-
   $: {
     // DONE: Empêche le rechargement intempestif du component quand on sélectionne un autre cycle.
     // TODO: Améliorer.
@@ -29,9 +25,9 @@
     pk = $films.currentFilmPk;
     if (pk && oldPk !== pk) {
       film = get(`film/${pk}`);
-      // film.then((f) => {
-      //   synopsis = f.synopsis;
-      // });
+      film.then((f) => {
+        $films.currentFilmEditingStatus = f.editing_status;
+      });
     }
   }
 
@@ -49,6 +45,8 @@
         snackbar.message = "Enregistré.";
         snackbar.visible = true;
         snackbar.props.bg = "#9fc";
+
+        $films.currentFilmEditingStatus = film.editing_status;
 
         // Met à jour la currentFilmsList avec les données à jour du film.
         $films.currentFilmsList = _($films.currentFilmsList)
@@ -95,7 +93,16 @@
             title="Voir la page du film sur le site"
             href="https://www.cinematheque.fr/film/{film.pk}.html"
             target="film_site_cf">{film.pk}</a
-          ><EditingStatus status={film.editing_status} size={16} />
+          >
+          <div class="status-container"
+            ><EditingStatus
+              status={$films.currentFilmEditingStatus}
+              size={12}
+            />
+            {["Non relu", "En cours", "Corrigé"][
+              $films.currentFilmEditingStatus
+            ]}</div
+          >
         </div>
         <fieldset>
           <label
@@ -260,6 +267,16 @@
     flex: 0 0 auto;
     align-self: flex-start;
     transform: translateX(-20%);
+  }
+
+  .status-container {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0 4px 0 0;
+    border: solid 1px #888;
+    color: #666;
+    border-radius: 4px;
+    user-select: none;
   }
 
   a {
