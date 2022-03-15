@@ -7,7 +7,7 @@
   import Form from "../lib/Form.svelte";
   import FilmsExportJson from "./FilmsExportJson.svelte";
 
-  $global.currentProgId = 119;
+  if (!$global.currentProgId) $global.currentProgId = 119; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
   let idCycle;
