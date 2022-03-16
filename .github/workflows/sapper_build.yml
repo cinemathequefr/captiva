@@ -9,8 +9,8 @@ jobs:
         uses: truewebartisans/actions-sapper@master
         with:
           build_mode: export
-          args: '--basepath captiva --entry "films /"'
-          # args: "--basepath captiva --entry"
+          args: --basepath captiva
+          # args: '--basepath captiva --entry "films /"'
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
