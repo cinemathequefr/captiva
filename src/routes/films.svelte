@@ -4,7 +4,7 @@
   import FilmsNav from "../components/films/FilmsNav.svelte";
 </script>
 
-<svelte:head><title>Films</title></svelte:head>
+<svelte:head><title>Captiva - Films</title></svelte:head>
 
 <div class="container">
   <SplitPane leftInitialSize="25%">

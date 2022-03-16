@@ -1,9 +1,3 @@
-<script>
-</script>
-
-<style>
-</style>
-
 <svelte:head>
-  <title>API client 2</title>
+  <title>Captiva</title>
 </svelte:head>
