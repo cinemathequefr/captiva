@@ -260,13 +260,13 @@
 
 <style>
   .container {
-    margin: 24px auto;
-    width: 90%;
+    margin: 12px auto;
+    width: 100%;
     max-width: 600px;
     padding: 12px;
     flex: 0 0 auto;
     align-self: flex-start;
-    transform: translateX(-20%);
+    background-color: #ddd;
   }
 
   .status-container {

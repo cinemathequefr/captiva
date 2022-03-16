@@ -106,6 +106,7 @@
     flex-direction: column;
     flex: 0 0 100%;
     overflow: hidden;
+    background-color: #aaa;
   }
 
   .cycle-selector {
