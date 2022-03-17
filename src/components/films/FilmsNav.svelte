@@ -6,6 +6,8 @@
   import EditingStatus from "../EditingStatus.svelte";
   import Form from "../lib/Form.svelte";
   import FilmsExportJson from "./FilmsExportJson.svelte";
+  import XButton from "../ui/XButton.svelte";
+  import Refresh from "../icons/Refresh.svelte";
 
   if (!$global.currentProgId) $global.currentProgId = 119; // TODO: fetch "default" currentProgId
 
@@ -13,8 +15,18 @@
   let idCycle;
   let pWhenFilmsFetched; // Promesse (sans valeur de résolution) qui est tenue quand la liste des films est obtenue.
 
-  function fetchFilmsList(e) {
-    idCycle = Number(e.currentTarget.value);
+  /**
+   * fetchFilmsList
+   * Requête la liste des films d'un cycle.
+   * Le cycle est identifié par idCycle, soit directement, soit via un événement.
+   * @param arg {number|Object} idCycle ou event.
+   */
+  function fetchFilmsList(arg) {
+    if (typeof arg === "number") {
+      idCycle = arg;
+    } else {
+      idCycle = Number(arg.currentTarget.value);
+    }
     pWhenFilmsFetched = new Promise((resolve, reject) => {
       get(`cycle/${idCycle}/films`)
         .then((data) => {
@@ -31,6 +43,10 @@
 
   function selectFilm(e) {
     $films.currentFilmPk = Number(e.currentTarget.dataset.pk);
+  }
+
+  function refresh(e) {
+    fetchFilmsList(idCycle);
   }
 </script>
 
@@ -58,11 +74,14 @@
     </Form>
   </div>
   <div class="films-count">
-    {#await pWhenFilmsFetched then}
-      {$films.currentFilmsList.length}
-      {$films.currentFilmsList.length < 2
-        ? "film trouvé."
-        : "films trouvés."}{/await}
+    {#if idCycle}
+      {#await pWhenFilmsFetched then}
+        {$films.currentFilmsList.length}
+        {$films.currentFilmsList.length < 2 ? "film trouvé." : "films trouvés."}
+        <XButton on:click={refresh}
+          ><Refresh size={14} color={"#666"} /></XButton
+        >
+      {/await}{/if}
   </div>
 
   {#await pWhenFilmsFetched then}
@@ -114,8 +133,8 @@
   }
 
   .films-count {
-    height: 32px;
-    padding: 0 16px 12px 16px;
+    /* height: 32px; */
+    padding: 3px 16px 12px 16px;
     flex: 0 0 auto;
     overflow: hidden;
     font-size: 0.813rem;
