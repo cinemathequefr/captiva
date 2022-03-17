@@ -6,6 +6,7 @@
   import EditingStatus from "../EditingStatus.svelte";
   import Form from "../lib/Form.svelte";
   import FilmsExportJson from "./FilmsExportJson.svelte";
+  import FilmsExportJsonNovius from "./FilmsExportJsonNovius.svelte";
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
 
@@ -109,6 +110,7 @@
       </ul>
       <div class="footer">
         <FilmsExportJson />
+        <FilmsExportJsonNovius />
       </div>
     {/if}
   {:catch error}
