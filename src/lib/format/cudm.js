@@ -7,7 +7,7 @@ const _ = require("lodash");
 
 const defaultOpts = {
   protect: {
-    markdownLineBreaks: true,
+    markdownLineBreaks: false,
   },
   singleLine: false, // true : remplace toutes les séquences de saut de ligne par un espace.
 };
@@ -131,14 +131,11 @@ function cudm(str, opts) {
 
   // o = o.replace(/((\x20)*(&nbsp;)+(\x20)*)+/g, "&nbsp;"); // Une succession d'espaces incluant au moins &nbsp; est remplacé par &nbsp;
 
-  o = o.replace(/\s+/g, " "); // Remplace 2+ espaces par 1 espace
-  // o = o.replace(/\x20{2,}/g, " "); // Remplace 2+ espaces par 1 espace
+  o = o.replace(/\x20{2,}/gm, " "); // Remplace 2+ espaces par 1 espace (NB : on utilise `\x20` plutôt que `\s`, pour préserver les sauts de paragraphe markdown.)
+  o = o.replace(/(^\x20|\x20$)/gm, ""); // Retire espace en début et fin de chaque ligne
 
   // Décodage des séquences protégées
   o = unprotect(o);
-
-  o = _.trim(o);
-
   return o;
 }
 
