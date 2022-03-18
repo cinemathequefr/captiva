@@ -1,8 +1,11 @@
 <script>
   import _ from "lodash";
-  import convertObjectValuesToNum from "../../lib/utils/convertObjectValuesToNum";
+  import { marked } from "marked";
+  // import convertObjectValuesToNum from "../../lib/utils/convertObjectValuesToNum";
+  import nbsp from "../../lib/format/nbsp";
   import { get } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
+  export let filename = "films.json";
 
   let link;
 
@@ -16,20 +19,71 @@
       let films = convertFilmsToNoviusFormat(data.data);
 
       // https://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
-      // link.setAttribute(
-      //   "href",
-      //   `data:application/json;charset=utf-8,${encodeURIComponent(
-      //     JSON.stringify(films, null, 2)
-      //   )}`
-      // );
-      // link.setAttribute("download", "films.json");
-      // link.click();
+      link.setAttribute(
+        "href",
+        `data:application/json;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(films, null, 2)
+        )}`
+      );
+      link.setAttribute("download", filename);
+      link.click();
     });
   }
 
   function convertFilmsToNoviusFormat(data) {
     // TODO (cf journal 2022-03-17)
-    console.log(JSON.stringify(data[0], null, 2));
+
+    return _(data)
+      .map((d) => {
+        let mentions = d.mentions || "";
+        let commentaire = d.commentaire || "";
+        return {
+          pk: d.pk,
+          titre: d.titre,
+          article: d.art || "",
+          titreVoComplet: [
+            (!d.artVo
+              ? d.titreVo
+              : d.artVo === "L'"
+              ? `${d.artVo}${d.titreVo}`
+              : `${d.artVo} ${d.titreVo}`) || "",
+            d.titreNx ? ` [${d.titreNx}]` : "",
+          ].join(""),
+          realisateur: d.realisateurs,
+          pays: d.pays,
+          annee: Number(d.annee) || null,
+          duree: Number(d.duree) || null,
+          generique: d.generique ? `<p>Avec ${d.generique}.</p>` : "",
+          adaptation: toHTML(d.adaptation, true),
+          // `synopsis` prend la valeur de synopsisjp seulement s'il n'y a de valeur synopsis.
+          synopsis: toHTML(
+            d.synopsisjp &&
+              d.synopsisjp !== "" &&
+              (!d.synopsis || d.synopsis === "")
+              ? d.synopsisjp
+              : d.synopsis
+          ),
+          texte:
+            toHTML(
+              `${mentions}${
+                mentions && commentaire ? "\n\n" : ""
+              }${commentaire}`
+            ) || undefined,
+        };
+      })
+      .value();
+  }
+
+  function toHTML(s, inline = false) {
+    // Convertit Markdow -> HTML
+    // Applique cudm (pour enlever trailing /n provenant de `marked`.)
+    // Applique nbsp.
+    // Remplace son entité par `'`.
+    // L'option inline=true renvoie du HTML inline. Utile pour le champ adaptation.
+    if (!s || s === "") return "";
+    const html = inline ? marked.parseInline : marked.parse;
+    return nbsp(html(s)).replace(/&#39;/g, "'");
+    // return nbsp(cudm(html(s))).replace(/&#39;/g, "'");
   }
 </script>
 

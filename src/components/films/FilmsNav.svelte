@@ -112,7 +112,9 @@
       </ul>
       <div class="footer">
         <FilmsExportJson />
-        <FilmsExportJsonNovius />
+        <FilmsExportJsonNovius
+          filename="PROG{$global.currentProgId}_CYCL{idCycle}_FILMS_NOVIUS.json"
+        />
       </div>
     {/if}
   {:catch error}
