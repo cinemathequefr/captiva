@@ -207,17 +207,17 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Mentions</div>
-            <textarea name="mentions" on:blur={cleanUp}
-              >{film.mentions || ""}</textarea
+            <div>Commentaire (mini-texte, texte FIFR, citation)</div>
+            <textarea name="commentaire" on:blur={cleanUp}
+              >{film.commentaire || ""}</textarea
             >
           </label>
         </fieldset>
         <fieldset>
           <label>
-            <div>Commentaire</div>
-            <textarea name="commentaire" on:blur={cleanUp}
-              >{film.commentaire || ""}</textarea
+            <div>Mentions (restauration, ...)</div>
+            <textarea name="mentions" on:blur={cleanUp}
+              >{film.mentions || ""}</textarea
             >
           </label>
         </fieldset>

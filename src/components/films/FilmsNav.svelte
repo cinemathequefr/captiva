@@ -88,12 +88,14 @@
   {#await pWhenFilmsFetched then}
     {#if $films.currentFilmsList.length > 0}
       <ul class="films-list">
-        {#each $films.currentFilmsList as film}
+        {#each $films.currentFilmsList as film, i}
           <li
+            on:focus={selectFilm}
             on:click={selectFilm}
             data-pk={film.pk}
             title={film.pk}
             class:selected={film.pk === $films.currentFilmPk}
+            tabindex={i + 1}
           >
             <div class="title-container">
               <div class="title">
@@ -161,17 +163,11 @@
   li.selected:nth-child(even) {
     background-color: #ffa;
   }
-  /*
-  li.selected,
-  li.selected:nth-child(even) {
-    background-color: #486;
-  }
 
-  li.selected *,
-  li.selected:nth-child(even) * {
-    color: #dfe;
+  li.selected:focus,
+  li.selected:nth-child(even):focus {
+    background-color: #ff6;
   }
-  */
 
   li:nth-child(even) {
     background-color: #ccc;

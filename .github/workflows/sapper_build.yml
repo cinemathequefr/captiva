@@ -1,5 +1,9 @@
 name: Build Sapper and Deploy to GitHub Pages
-on: [push]
+on:
+  push:
+    branches:
+      - master
+# on: [push]
 jobs:
   build_deploy:
     runs-on: ubuntu-latest
