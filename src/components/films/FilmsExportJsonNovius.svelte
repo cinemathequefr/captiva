@@ -34,6 +34,7 @@
     // TODO (cf journal 2022-03-17)
 
     let o = _(data)
+      .filter((d) => d.editing_status === 2) // On ne garde que les films en état validé.
       .map((d) => {
         let mentions = d.mentions || "";
         let commentaire = d.commentaire || "";
@@ -42,12 +43,12 @@
           titre: d.titre,
           article: d.art || "",
           titreVoComplet: [
-            (!d.artVo
-              ? d.titreVo
-              : d.artVo === "L'"
-              ? `${d.artVo}${d.titreVo}`
-              : `${d.artVo} ${d.titreVo}`) || "",
-            d.titreNx ? ` [${d.titreNx}]` : "",
+            (!d.artvo
+              ? d.titrevo
+              : d.artvo === "L'"
+              ? `${d.artvo}${d.titrevo}`
+              : `${d.artvo} ${d.titrevo}`) || "",
+            d.titrenx ? ` [${d.titrenx}]` : "",
           ].join(""),
           realisateur: d.realisateurs,
           pays: d.pays,
