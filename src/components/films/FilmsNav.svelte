@@ -29,7 +29,7 @@
       idCycle = Number(arg.currentTarget.value);
     }
     pWhenFilmsFetched = new Promise((resolve, reject) => {
-      get(`cycle/${idCycle}/films`)
+      get(`prog/${$global.currentProgId}/cycle/${idCycle}/films`)
         .then((data) => {
           $films.currentFilmsList = _(data.data)
             .orderBy((d) => _.kebabCase(d.titre))
