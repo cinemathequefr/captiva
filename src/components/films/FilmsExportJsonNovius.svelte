@@ -33,7 +33,7 @@
   function convertFilmsToNoviusFormat(data) {
     // TODO (cf journal 2022-03-17)
 
-    return _(data)
+    let o = _(data)
       .map((d) => {
         let mentions = d.mentions || "";
         let commentaire = d.commentaire || "";
@@ -72,6 +72,29 @@
         };
       })
       .value();
+
+    // Elimine les propriétés de certains champs si leur valeur est null, undefined, "" ou 0 (= actuellement la valeur vide pour âge minimal).
+    // Ce mécanisme permet de préserver leur éventuelle valeur déjà existante sur le site.
+    o = _(o)
+      .map((d) =>
+        _(d)
+          .omitBy((v, k) => {
+            if (
+              _.indexOf(
+                ["synopsis", "texte", "mention", "duree", "ageMinimal"],
+                k
+              ) > -1 &&
+              (v === "" || _.isNil(v) || v === 0)
+            ) {
+              return true;
+            }
+            return false;
+          })
+          .value()
+      )
+      .value();
+
+    return o;
   }
 
   function toHTML(s, inline = false) {
@@ -82,8 +105,7 @@
     // L'option inline=true renvoie du HTML inline. Utile pour le champ adaptation.
     if (!s || s === "") return "";
     const html = inline ? marked.parseInline : marked.parse;
-    return nbsp(html(s)).replace(/&#39;/g, "'");
-    // return nbsp(cudm(html(s))).replace(/&#39;/g, "'");
+    return nbsp(html(s)).replace(/&#39;/g, "'").replace(/\n/g, "");
   }
 </script>
 
