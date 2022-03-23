@@ -1,1 +1,0 @@
-import{S as t,i as s,s as a,q as e,d as i,n}from"./client.86a21feb.js";function o(t){return{c(){this.h()},l(t){e('[data-svelte="svelte-marxjf"]',document.head).forEach(i),this.h()},h(){document.title="Captiva"},m:n,p:n,i:n,o:n,d:n}}class r extends t{constructor(t){super(),s(this,t,null,o,a,{})}}export{r as default};
