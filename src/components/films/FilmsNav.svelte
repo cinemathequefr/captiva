@@ -74,15 +74,37 @@
       </fieldset>
     </Form>
   </div>
-  <div class="films-count">
-    {#if idCycle}
-      {#await pWhenFilmsFetched then}
-        {$films.currentFilmsList.length}
-        {$films.currentFilmsList.length < 2 ? "film trouvé." : "films trouvés."}
-        <XButton on:click={refresh}
-          ><Refresh size={14} color={"#666"} /></XButton
-        >
-      {/await}{/if}
+
+  <div class="tools-container">
+    <div class="tools-container-left">
+      <XButton
+        style="font-size:.75rem;"
+        on:click={() => {
+          $global.filmEditOrView = "view";
+        }}>view</XButton
+      >
+      <XButton
+        style="font-size:.75rem;"
+        on:click={() => {
+          $global.filmEditOrView = "edit";
+        }}>edit</XButton
+      >
+    </div>
+
+    <div class="tools-container-right"
+      ><div class="films-count">
+        {#if idCycle}
+          {#await pWhenFilmsFetched then}
+            {$films.currentFilmsList.length}
+            {$films.currentFilmsList.length < 2
+              ? "film trouvé."
+              : "films trouvés."}
+            <XButton on:click={refresh}
+              ><Refresh size={14} color={"#666"} /></XButton
+            >
+          {/await}{/if}
+      </div>
+    </div>
   </div>
 
   {#await pWhenFilmsFetched then}
@@ -135,7 +157,7 @@
   }
 
   .cycle-selector {
-    padding: 8px 8px 0 8px;
+    padding: 8px 4px 0 4px;
   }
 
   .films-count {
@@ -211,5 +233,22 @@
 
   .footer {
     padding: 6px 0;
+  }
+
+  .tools-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 0 7px 0 4px;
+  }
+
+  .tools-container-left,
+  .tools-container-right {
+    flex: 1 1 auto;
+  }
+
+  label {
+    padding: 12px;
   }
 </style>

@@ -1,7 +1,9 @@
 <script>
   import SplitPane from "../components/ui/SplitPane.svelte";
+  import FilmView from "../components/films/FilmView.svelte";
   import FilmEdit from "../components/films/FilmEdit.svelte";
   import FilmsNav from "../components/films/FilmsNav.svelte";
+  import { global } from "../stores/global";
 </script>
 
 <svelte:head><title>Captiva - Films</title></svelte:head>
@@ -12,20 +14,12 @@
       <FilmsNav />
     </svelte:fragment>
     <svelte:fragment slot="right">
-      <FilmEdit />
+      {#if $global.filmEditOrView === "edit"}
+        <FilmEdit />{:else}<FilmView />{/if}
     </svelte:fragment>
   </SplitPane>
 </div>
 
-<!-- <div class="container">
-  <div class="left">
-    <FilmsNav />
-  </div>
-  <div class="right">
-    <FilmEdit />
-  </div>
-</div> 
--->
 <style>
   .container {
     display: flex;
@@ -34,22 +28,4 @@
     flex-wrap: nowrap;
     align-items: stretch;
   }
-
-  /*
-  .left {
-    flex: 0 0 25%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: #aaa;
-  }
-  .right {
-    flex: 0 0 75%;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: #ddd;
-  }
-  */
 </style>
