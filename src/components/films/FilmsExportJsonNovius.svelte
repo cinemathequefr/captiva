@@ -100,13 +100,15 @@
 
   function toHTML(s, inline = false) {
     // Convertit Markdow -> HTML
-    // Applique cudm (pour enlever trailing /n provenant de `marked`.)
-    // Applique nbsp.
-    // Remplace son entité par `'`.
-    // L'option inline=true renvoie du HTML inline. Utile pour le champ adaptation.
+    // L'option inline=true renvoie du HTML inline (sans <p></p> autour). Utile pour le champ adaptation.
     if (!s || s === "") return "";
     const html = inline ? marked.parseInline : marked.parse;
-    return nbsp(html(s)).replace(/&#39;/g, "'").replace(/\n/g, "");
+
+    let o = html(s); // Conversion Markdown -> HTML.
+    o = o.replace(/&#39;/g, "'"); // Remplacement de l'entité apostrophe &#39; (générée par marked) par son caractère.
+    o = o.replace(/\n/g, ""); // Remplace de \n généré par marked.
+    o = nbsp(o); // Placement des espaces insécables.
+    return o;
   }
 </script>
 
