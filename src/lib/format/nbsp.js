@@ -2,6 +2,7 @@
  * nbsp
  * Remplace les espaces en position d'insécable (cas usuels) par un insécable.
  * TODO : ajouter des paramètres pour des custom patterns (par exemple pour les cas du type "35 mm"...).
+ * @version 2022-03-30
  * @param {string} str
  * @param {string} rep Chaîne à utiliser pour exprimer l'espace insécable (par défaut "&nbsp;").
  * @return {string}
