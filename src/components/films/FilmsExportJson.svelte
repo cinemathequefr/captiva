@@ -56,6 +56,8 @@
             .filter((e) => e.texte)
             .value();
 
+          console.log(d);
+
           let o = {
             idFilm: d.pk,
             titre: d.titre,
@@ -67,6 +69,7 @@
             pays: d.pays,
             generique: (d.generique && d.generique.split(", ")) || undefined,
             adaptation: d.adaptation,
+            ageMinimal: d.ageminimal || undefined,
             textes: textes,
           };
           // Retire les propriétés de valeur "" et null.
