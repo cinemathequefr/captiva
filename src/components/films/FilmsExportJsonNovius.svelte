@@ -107,6 +107,7 @@
     let o = html(s); // Conversion Markdown -> HTML.
     o = o.replace(/&#39;/g, "'"); // Remplacement de l'entité apostrophe &#39; (générée par marked) par son caractère.
     o = o.replace(/\n/g, ""); // Remplace de \n généré par marked.
+    o = o.replace(/<hr>/g, `<hr class="short">`); // Donne la classe voulue à l'élément hr.
     o = nbsp(o); // Placement des espaces insécables.
     return o;
   }
