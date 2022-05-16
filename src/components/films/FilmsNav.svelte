@@ -10,7 +10,7 @@
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
 
-  if (!$global.currentProgId) $global.currentProgId = 119; // TODO: fetch "default" currentProgId
+  if (!$global.currentProgId) $global.currentProgId = 124; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
   let idCycle;
