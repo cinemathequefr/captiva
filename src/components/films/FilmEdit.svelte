@@ -76,11 +76,16 @@
   }
 
   function cleanUp(e) {
-    e.originalTarget.value = cudm(e.originalTarget.value);
+    // 2022-11-10 : un timeout est nécessaire lorsque l'événement est de type `paste`.
+    setTimeout(() => {
+      e.target.value = cudm(e.target.value);
+    }, 1);
   }
 
   function cleanUpSingleLine(e) {
-    e.originalTarget.value = cudm(e.originalTarget.value, { singleLine: true });
+    setTimeout(() => {
+      e.target.value = cudm(e.target.value, { singleLine: true });
+    }, 1);
   }
 </script>
 
@@ -94,15 +99,12 @@
             href="https://www.cinematheque.fr/film/{film.pk}.html"
             target="film_site_cf">{film.pk}</a
           >
-          <div class="status-container"
-            ><EditingStatus
-              status={$films.currentFilmEditingStatus}
-              size={12}
-            />
+          <div class="status-container">
+            <EditingStatus status={$films.currentFilmEditingStatus} size={12} />
             {["Non relu", "En cours", "Corrigé"][
               $films.currentFilmEditingStatus
-            ]}</div
-          >
+            ]}
+          </div>
         </div>
         <fieldset>
           <label
@@ -113,6 +115,8 @@
               class="bold"
               value={film.titre || ""}
               required
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
             /></label
           >
           <label style="flex: 0 1 10%;"
@@ -122,6 +126,8 @@
               type="text"
               class="bold"
               value={film.art || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
             /></label
           >
         </fieldset>
@@ -132,11 +138,19 @@
               name="titrevo"
               type="text"
               value={film.titrevo || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
             /></label
           >
           <label style="flex: 0 1 10%;"
             ><div>ArtVo</div>
-            <input name="artvo" type="text" value={film.artvo || ""} /></label
+            <input
+              name="artvo"
+              type="text"
+              value={film.artvo || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
+            /></label
           >
         </fieldset>
         <fieldset>
@@ -156,6 +170,8 @@
               name="realisateurs"
               type="text"
               value={film.realisateurs || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
               required
             /></label
           >
@@ -163,7 +179,13 @@
         <fieldset>
           <label>
             <div>Pays</div>
-            <input name="pays" type="text" value={film.pays || ""} />
+            <input
+              name="pays"
+              type="text"
+              value={film.pays || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
+            />
           </label>
           <label style="flex: 0 1 15%;">
             <div>Année</div>
@@ -183,7 +205,13 @@
         <fieldset>
           <label>
             <div>Générique</div>
-            <input name="generique" type="text" value={film.generique || ""} />
+            <input
+              name="generique"
+              type="text"
+              value={film.generique || ""}
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}
+            />
           </label>
         </fieldset>
         <fieldset>
@@ -192,7 +220,8 @@
             <textarea
               name="adaptation"
               class="single-line"
-              on:blur={cleanUpSingleLine}>{film.adaptation || ""}</textarea
+              on:blur={cleanUpSingleLine}
+              on:paste={cleanUpSingleLine}>{film.adaptation || ""}</textarea
             >
           </label>
         </fieldset>
@@ -200,7 +229,7 @@
         <fieldset>
           <label>
             <div>Synopsis</div>
-            <textarea name="synopsis" on:blur={cleanUp}
+            <textarea name="synopsis" on:blur={cleanUp} on:paste={cleanUp}
               >{film.synopsis || ""}</textarea
             >
           </label>
@@ -208,7 +237,7 @@
         <fieldset>
           <label>
             <div>Commentaire (mini-texte, texte FIFR, citation)</div>
-            <textarea name="commentaire" on:blur={cleanUp}
+            <textarea name="commentaire" on:blur={cleanUp} on:paste={cleanUp}
               >{film.commentaire || ""}</textarea
             >
           </label>
@@ -216,7 +245,7 @@
         <fieldset>
           <label>
             <div>Mentions (restauration, ...)</div>
-            <textarea name="mentions" on:blur={cleanUp}
+            <textarea name="mentions" on:blur={cleanUp} on:paste={cleanUp}
               >{film.mentions || ""}</textarea
             >
           </label>
@@ -224,7 +253,7 @@
         <fieldset>
           <label>
             <div>Synopsis JP</div>
-            <textarea name="synopsisjp" on:blur={cleanUp}
+            <textarea name="synopsisjp" on:blur={cleanUp} on:paste={cleanUp}
               >{film.synopsisjp || ""}</textarea
             >
           </label>

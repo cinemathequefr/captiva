@@ -70,9 +70,6 @@ function cudm(str, opts) {
   var o = str;
 
   opts = _({}).assign(defaultOpts, opts).value();
-
-  console.log(opts);
-
   opts.protect = _({}).assign(defaultOpts.protect, opts.protect).value();
 
   // Encodage des séquences protégées
