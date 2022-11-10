@@ -10,7 +10,7 @@
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
 
-  if (!$global.currentProgId) $global.currentProgId = 124; // TODO: fetch "default" currentProgId
+  if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
   let idCycle;
@@ -91,8 +91,8 @@
       >
     </div>
 
-    <div class="tools-container-right"
-      ><div class="films-count">
+    <div class="tools-container-right">
+      <div class="films-count">
         {#if idCycle}
           {#await pWhenFilmsFetched then}
             {$films.currentFilmsList.length}
@@ -133,7 +133,7 @@
         {/each}
       </ul>
       <div class="footer">
-        <FilmsExportJson />
+        <!-- <FilmsExportJson /> -->
         <FilmsExportJsonNovius
           filename="PROG{$global.currentProgId}_CYCL{idCycle}_FILMS_NOVIUS.json"
         />
