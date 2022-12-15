@@ -10,9 +10,23 @@
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
 
-  if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
+  // if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
+
+  let elCycleSelector;
+
+  // 2022-12-16 : Quand le programme change, réinitialise le sélecteur de cycles et la liste des films (solution rapide mais pas propre).
+  $: {
+    $global;
+    cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
+    if (elCycleSelector) {
+      elCycleSelector.selectedIndex = 0;
+      idCycle = null;
+      $films.currentFilmsList = [];
+    }
+  }
+
   let idCycle;
   let pWhenFilmsFetched; // Promesse (sans valeur de résolution) qui est tenue quand la liste des films est obtenue.
 
@@ -56,7 +70,10 @@
     <Form>
       <fieldset>
         <label>
-          <select on:change|preventDefault={fetchFilmsList}>
+          <select
+            on:change|preventDefault={fetchFilmsList}
+            bind:this={elCycleSelector}
+          >
             <option selected disabled value="">--- Choisir un cycle ---</option>
             {#await cyclesResponse then cycles}
               {#each cycles.data as cycle}

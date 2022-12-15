@@ -1,6 +1,19 @@
 <script>
   import Connect from "./Connect.svelte";
   import { token } from "../stores/token.js";
+  import { global } from "../stores/global.js";
+
+  const progs = [124, 129, 143, 146];
+
+  // 2022-12-15 : On boucle sur la liste des programmes disponibles (`progs`). Si le store $global.currentProgId n'a pas de valeur, on prend le dernier programme disponible.
+  function changeProg() {
+    $global.currentProgId =
+      progs[
+        (progs.indexOf($global.currentProgId || progs[progs.length - 1]) + 1) %
+          progs.length
+      ];
+  }
+
   // export let segment;
   $: $token = $token;
 </script>
@@ -10,6 +23,12 @@
     <ul>
       {#if $token !== ""}
         <li><a href="films">Films</a></li>
+
+        <li>
+          <button class="info" on:click={changeProg}
+            >{$global.currentProgId}</button
+          >
+        </li>
       {/if}
     </ul>
   </div>
@@ -48,6 +67,17 @@
     flex-wrap: nowrap;
     justify-content: flex-end;
     /* background-color: #357; */
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+  }
+
+  button.info {
+    margin-left: 4px;
+    padding: 1px 4px;
+    border-radius: 0;
   }
 
   :global(.right li),
