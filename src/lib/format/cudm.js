@@ -2,6 +2,7 @@
  * Clean Up da Mess 4-beta version module
  * 2018-05-31
  * 2018-12-10 : Supprime tout remplacement d'espace en &nbsp; (ici, le script sert à générer du Markdown)
+ * 2023-01-13 : Remplace les éventuels &nbsp; en espace + désactive le remplacement autimatique des guillemets droits en guillemets français.
  */
 const _ = require("lodash");
 
@@ -115,9 +116,12 @@ function cudm(str, opts) {
 
   o = replaceOe(o);
 
-  o = o.replace(/\xAB\x20*/g, "« "); // Normalise les guillemets français
-  o = o.replace(/\x20*\xBB/g, " »");
-  o = o.replace(/((")(?![^<]*>))([^"]*)((")(?![^<]*>))/g, "« $3 »"); // Remplace les guillemets droits par des guillemets français sauf à l'intérieur des tags HTML.
+  o = o.replace(/«([^ ])/g, "« $1"); // Normalise les guillemets français
+  o = o.replace(/([^ ])»/g, "$1 »");
+  // o = o.replace(/\xAB\x20*/g, "« "); // Normalise les guillemets français
+  // o = o.replace(/\x20*\xBB/g, " »");
+
+  // o = o.replace(/((")(?![^<]*>))([^"]*)((")(?![^<]*>))/g, "« $3 »"); // Remplace les guillemets droits par des guillemets français sauf à l'intérieur des tags HTML.
 
   // o = o.replace(/(\x20)([\?:!;\xBB])/gi, "&nbsp;$2"); // Remplace un espace par un espace insécable dans les cas usuels
   // o = o.replace(/(\xAB)(\x20)/gi, "$1&nbsp;"); // Remplace un espace par un espace insécable après un guillemet français ouvrant
@@ -127,6 +131,10 @@ function cudm(str, opts) {
   o = o.replace(/([^\n])(\n{3,})([^\n])/g, "$1\n$3");
 
   // o = o.replace(/((\x20)*(&nbsp;)+(\x20)*)+/g, "&nbsp;"); // Une succession d'espaces incluant au moins &nbsp; est remplacé par &nbsp;
+
+  o = o.replace(/<br>/g, " "); // Nettoie les éléments HTML <br>
+
+  o = o.replace(/&nbsp;/g, " "); // Nettoie les entités &nbsp; en les remplaçant par 1 espace.
 
   o = o.replace(/\x20{2,}/gm, " "); // Remplace 2+ espaces par 1 espace (NB : on utilise `\x20` plutôt que `\s`, pour préserver les sauts de paragraphe markdown.)
   o = o.replace(/(^\x20|\x20$)/gm, ""); // Retire espace en début et fin de chaque ligne
