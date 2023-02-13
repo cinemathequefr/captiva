@@ -64,12 +64,14 @@
               ? d.synopsisjp
               : d.synopsis
           ),
-          texte:
-            toHTML(
-              `${mentions}${
-                mentions && commentaire ? "\n\n" : ""
-              }${commentaire}`
-            ) || undefined,
+          mention: mentions !== "" ? toHTML(mentions) : undefined,
+          texte: commentaire !== "" ? toHTML(commentaire) : undefined,
+          // texte:
+          //   toHTML(
+          //     `${mentions}${
+          //       mentions && commentaire ? "\n\n" : ""
+          //     }${commentaire}`
+          //   ) || undefined,
         };
       })
       .value();
