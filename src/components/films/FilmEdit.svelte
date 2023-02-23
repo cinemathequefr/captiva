@@ -236,7 +236,21 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Commentaire (mini-texte, texte FIFR, citation)</div>
+            <div>
+              Mini-texte (remplace les synopsis dans la nouvelle formule du
+              programme papier)
+            </div>
+            <textarea
+              class="hi"
+              name="minitexte"
+              on:blur={cleanUp}
+              on:paste={cleanUp}>{film.minitexte || ""}</textarea
+            >
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            <div>Commentaire (texte FIFR, citation)</div>
             <textarea name="commentaire" on:blur={cleanUp} on:paste={cleanUp}
               >{film.commentaire || ""}</textarea
             >
@@ -315,5 +329,9 @@
     padding: 0;
     margin: 0;
     font-size: 1rem;
+  }
+
+  .hi {
+    background-color: #cfe;
   }
 </style>

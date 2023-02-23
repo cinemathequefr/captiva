@@ -38,6 +38,7 @@
       .map((d) => {
         let mentions = d.mentions || "";
         let commentaire = d.commentaire || "";
+        let minitexte = d.minitexte || "";
         return {
           pk: d.pk,
           titre: d.titre,
@@ -65,13 +66,14 @@
               : d.synopsis
           ),
           mention: mentions !== "" ? toHTML(mentions) : undefined,
-          texte: commentaire !== "" ? toHTML(commentaire) : undefined,
-          // texte:
-          //   toHTML(
-          //     `${mentions}${
-          //       mentions && commentaire ? "\n\n" : ""
-          //     }${commentaire}`
-          //   ) || undefined,
+          texte:
+            // Mini-texte et commentaire sont concaténés.
+            toHTML(
+              `${minitexte}${
+                minitexte && commentaire ? "\n\n" : ""
+              }${commentaire}`
+            ) || undefined,
+          // texte: commentaire !== "" ? toHTML(commentaire) : undefined,
         };
       })
       .value();
