@@ -3,7 +3,8 @@
   import { token } from "../stores/token.js";
   import { global } from "../stores/global.js";
 
-  const progs = [124, 129, 143, 146, 150];
+  const progs = [143, 150, 152];
+  // const progs = [124, 129, 143, 146, 150, 152];
 
   // 2022-12-15 : On boucle sur la liste des programmes disponibles (`progs`). Si le store $global.currentProgId n'a pas de valeur, on prend le dernier programme disponible.
   function changeProg() {
