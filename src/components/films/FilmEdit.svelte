@@ -272,6 +272,7 @@
             >
           </label>
         </fieldset>
+
         <!-- <input name="ageminimal" type="hidden" value={film.ageminimal || null} /> -->
 
         <fieldset>
@@ -289,6 +290,18 @@
               >
             </select></label
           >
+          <div style="flex: 0 0 65%;" />
+          <label style="flex: 0 1 15%;"
+            ><div>Âge JP</div>
+            <select name="ageminimal" required>
+              <option value="" />
+              {#each [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as age}
+                <option value={age} selected={film.ageminimal === age}
+                  >{age}</option
+                >
+              {/each}
+            </select>
+          </label>
         </fieldset>
         <fieldset class="buttons-container">
           <label><input type="submit" class="yes" value="Enregistrer" /></label>
