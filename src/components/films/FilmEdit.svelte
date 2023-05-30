@@ -38,7 +38,14 @@
       film.push([k, v]);
     }
     film = Object.assign(_.fromPairs(film));
-    film = convertObjectValuesToNum(film, ["annee", "editing_status"]);
+
+    film = convertObjectValuesToNum(film, [
+      "annee",
+      "editing_status",
+      "ageminimal", // Une chaîne vide (ageminimal non spécifié) renvoie 0.
+    ]);
+
+    if (film.ageminimal === 0) film = _.omit(film, "ageminimal");
 
     put(`film/${pk}`, film)
       .then((res) => {
@@ -69,9 +76,9 @@
       })
       .catch((e) => {
         console.log(e);
-        snackbarMessage = "L'enregistrement a échoué.";
-        snackbar.props.bg = "#f9c";
-        visible = true;
+        snackbar.message = "L'enregistrement a échoué.";
+        snackbar.props.bg = "#f99";
+        snackbar.visible = true;
       });
   }
 
@@ -239,8 +246,7 @@
             <div>
               Mini-texte (remplace les synopsis dans la nouvelle formule du
               programme papier)
-            </div>
-            <textarea
+            </div><textarea
               class="hi"
               name="minitexte"
               on:blur={cleanUp}
@@ -293,7 +299,7 @@
           <div style="flex: 0 0 65%;" />
           <label style="flex: 0 1 15%;"
             ><div>Âge JP</div>
-            <select name="ageminimal" required>
+            <select name="ageminimal">
               <option value="" />
               {#each [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as age}
                 <option value={age} selected={film.ageminimal === age}
