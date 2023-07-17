@@ -73,7 +73,7 @@
                 minitexte && commentaire ? "\n\n" : ""
               }${commentaire}`
             ) || undefined,
-          // texte: commentaire !== "" ? toHTML(commentaire) : undefined,
+          ageMinimal: d.ageminimal || undefined,
         };
       })
       .value();
