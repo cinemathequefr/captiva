@@ -1,7 +1,6 @@
 <script>
   import _ from "lodash";
   import { marked } from "marked";
-  // import convertObjectValuesToNum from "../../lib/utils/convertObjectValuesToNum";
   import nbsp from "../../lib/format/nbsp";
   import { get } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
@@ -31,14 +30,17 @@
   }
 
   function convertFilmsToNoviusFormat(data) {
-    // TODO (cf journal 2022-03-17)
-
     let o = _(data)
       .filter((d) => d.editing_status === 2) // On ne garde que les films en état validé.
       .map((d) => {
-        let mentions = d.mentions || "";
-        let commentaire = d.commentaire || "";
-        let minitexte = d.minitexte || "";
+        let synopsis = d.synopsis || undefined;
+        let minitexte = d.minitexte || undefined;
+        let commentaire = d.commentaire || undefined;
+        let mentions = d.mentions || undefined;
+        let synopsisjp = d.synopsisjp || undefined;
+        let ageMinimal =
+          d.ageMininal === 0 ? undefined : d.ageMinimal || undefined;
+
         return {
           pk: d.pk,
           titre: d.titre,
@@ -47,8 +49,8 @@
             (!d.artvo
               ? d.titrevo
               : d.artvo === "L'"
-              ? `${d.artvo}${d.titrevo}`
-              : `${d.artvo} ${d.titrevo}`) || "",
+                ? `${d.artvo}${d.titrevo}`
+                : `${d.artvo} ${d.titrevo}`) || "",
             d.titrenx ? ` [${d.titrenx}]` : "",
           ].join(""),
           realisateur: d.realisateurs,
@@ -57,23 +59,10 @@
           duree: Number(d.duree) || null,
           generique: d.generique ? `<p>Avec ${d.generique}.</p>` : "",
           adaptation: toHTML(d.adaptation, true),
-          // `synopsis` prend la valeur de synopsisjp seulement s'il n'y a de valeur synopsis.
-          synopsis: toHTML(
-            d.synopsisjp &&
-              d.synopsisjp !== "" &&
-              (!d.synopsis || d.synopsis === "")
-              ? d.synopsisjp
-              : d.synopsis
-          ),
-          mention: mentions !== "" ? toHTML(mentions) : undefined,
-          texte:
-            // Mini-texte et commentaire sont concaténés.
-            toHTML(
-              `${minitexte}${
-                minitexte && commentaire ? "\n\n" : ""
-              }${commentaire}`
-            ) || undefined,
-          ageMinimal: d.ageminimal || undefined,
+          synopsis: toHTML(minitexte || synopsis || synopsisjp), // Ordre de priorité des textes à mettre dans le champ "synopsis" du site (qui sert de champ texte principal).
+          texte: toHTML(commentaire),
+          mention: toHTML(mentions),
+          ageMinimal,
         };
       })
       .value();
@@ -86,7 +75,8 @@
           .omitBy((v, k) => {
             if (
               _.indexOf(
-                ["synopsis", "texte", "mention", "duree", "ageMinimal"],
+                ["duree", "ageMinimal"],
+                // ["synopsis", "texte", "mention", "duree", "ageMinimal"],
                 k
               ) > -1 &&
               (v === "" || _.isNil(v) || v === 0)
@@ -103,7 +93,7 @@
   }
 
   function toHTML(s, inline = false) {
-    // Convertit Markdow -> HTML
+    // Convertit Markdown -> HTML
     // L'option inline=true renvoie du HTML inline (sans <p></p> autour). Utile pour le champ adaptation.
     if (!s || s === "") return "";
     const html = inline ? marked.parseInline : marked.parse;
