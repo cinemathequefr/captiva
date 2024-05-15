@@ -35,7 +35,7 @@ async function send({ method, path, data }) {
 
   if (data) {
     opts.headers["Content-Type"] = "application/json";
-    opts.cache = "no-store";
+    opts.headers["Cache-Control"] = "no-store";
 
     if (method === "GET") {
       query = `?${objectToQuerystring(data)}`;
