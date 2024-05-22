@@ -43,10 +43,17 @@
       "annee",
       "editing_status",
       "ageminimal", // Une chaîne vide (ageminimal non spécifié) renvoie 0.
+      "id_boxoffice",
     ]);
 
     if (film.ageminimal === 0) film = _.omit(film, "ageminimal");
 
+    // 2024-05-22 : On retire les propriétés dont la valeur est une chaîne vide.
+    film = _(film)
+      .omitBy((v) => v === "")
+      .value();
+
+    // (NOTE du 2024-05-22) Une requête PUT (et non PATCH) aura pour effet que les champs non transmis (notamment les "" retirées ci-dessus) seront bien réécrits dans la table, avec la valeur par défaut du champ.
     put(`film/${pk}`, film)
       .then((res) => {
         snackbar.message = "Enregistré.";
@@ -307,7 +314,6 @@
               pattern="\d+"
             />
           </label>
-
 
           <label style="flex: 0 1 15%;"
             ><div>Âge JP</div>
