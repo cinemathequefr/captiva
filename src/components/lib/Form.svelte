@@ -82,6 +82,10 @@
     outline: none;
   }
 
+  :global(input[type="text"], select) {
+    line-height: 1rem;
+  }
+
   :global(input[type="text"]:focus, textarea:focus) {
     background-color: #fff;
   }

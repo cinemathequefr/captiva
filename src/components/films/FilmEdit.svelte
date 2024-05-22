@@ -296,7 +296,19 @@
               >
             </select></label
           >
-          <div style="flex: 0 0 65%;" />
+          <div style="flex: 0 0 50%;" />
+
+          <label style="flex: 0 1 15%;">
+            <div>Id Allociné</div>
+            <input
+              name="id_boxoffice"
+              type="text"
+              value={film.id_boxoffice || ""}
+              pattern="\d+"
+            />
+          </label>
+
+
           <label style="flex: 0 1 15%;"
             ><div>Âge JP</div>
             <select name="ageminimal">
