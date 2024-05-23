@@ -308,7 +308,17 @@
           <div style="flex: 0 0 50%;" />
 
           <label style="flex: 0 1 15%;">
-            <div>Id Allociné</div>
+            <div>
+              Id Allociné
+              {#if !film.id_boxoffice}<a
+                  href="https://www.allocine.fr/rechercher/movie/?q={film.titre}"
+                  target="allocine">⚫︎</a
+                >{:else}<a
+                  class="check"
+                  href="https://www.allocine.fr/film/fichefilm_gen_cfilm={film.id_boxoffice}.html"
+                  target="allocine">⚫︎</a
+                >{/if}
+            </div>
             <input
               name="id_boxoffice"
               type="text"
@@ -354,7 +364,7 @@
   .status-container {
     display: inline-block;
     font-size: 0.75rem;
-    padding: 0 4px 0 0;
+    padding: 0 2px 0 0;
     border: solid 1px #888;
     color: #666;
     border-radius: 4px;
@@ -368,6 +378,15 @@
     padding: 0;
     margin: 0;
     font-size: 1rem;
+  }
+
+  label a {
+    font-size: inherit;
+    padding: 0 0 0 4px;
+  }
+
+  label a.check {
+    color: #69f;
   }
 
   .hi {
