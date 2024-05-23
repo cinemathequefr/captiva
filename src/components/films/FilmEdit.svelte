@@ -41,6 +41,7 @@
 
     film = convertObjectValuesToNum(film, [
       "annee",
+      "duree", // <--- Ajout (2024-05-23)
       "editing_status",
       "ageminimal", // Une chaîne vide (ageminimal non spécifié) renvoie 0.
       "id_boxoffice",
@@ -253,7 +254,8 @@
             <div>
               Mini-texte (remplace les synopsis dans la nouvelle formule du
               programme papier)
-            </div><textarea
+            </div>
+            <textarea
               class="hi"
               name="minitexte"
               on:blur={cleanUp}
