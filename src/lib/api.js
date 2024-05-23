@@ -8,8 +8,8 @@ token.subscribe((value) => {
 });
 
 const controller = process.browser ? new AbortController() : null;
-// const base = "https://api.cnmtq.fr";
-const base = "http://localhost";
+const base = "https://api.cnmtq.fr";
+// const base = "http://localhost";
 const delay = 10000;
 
 /**
