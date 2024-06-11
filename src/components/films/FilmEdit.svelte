@@ -219,7 +219,7 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Générique</div>
+            <div>Générique (+ Générique prog)</div>
             <input
               name="generique"
               type="text"
@@ -229,6 +229,18 @@
             />
           </label>
         </fieldset>
+        <!-- {#if film.generique !== film.generique_source} -->
+        <fieldset target="">
+          <label>
+            <input
+              style="background-color: #ccc; color:#444;"
+              type="text"
+              disabled
+              value={film.generique_source || ""}
+            /></label
+          >
+        </fieldset>
+        <!-- {/if} -->
         <fieldset>
           <label>
             <div>Adaptation</div>
@@ -391,5 +403,9 @@
 
   .hi {
     background-color: #cfe;
+  }
+
+  input:disabled {
+    background-color: transparent;
   }
 </style>
