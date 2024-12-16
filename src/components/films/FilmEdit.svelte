@@ -210,7 +210,8 @@
               value={film.annee || ""}
               required
               pattern="\d\d\d\d"
-              disabled={film.annee && film.annee_is_verified}
+              readonly={film.annee && film.annee_is_verified}
+              tabindex={film.annee && film.annee_is_verified ? "-1" : "auto"}
             />
           </label>
           <label style="flex: 0 1 15%;">
@@ -408,5 +409,10 @@
 
   input:disabled {
     background-color: transparent;
+  }
+
+  input:read-only {
+    background-color: #ccc;
+    color: #444;
   }
 </style>
