@@ -210,6 +210,7 @@
               value={film.annee || ""}
               required
               pattern="\d\d\d\d"
+              disabled={film.annee && film.annee_is_verified}
             />
           </label>
           <label style="flex: 0 1 15%;">
