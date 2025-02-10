@@ -31,7 +31,7 @@
 
   function convertFilmsToNoviusFormat(data) {
     let o = _(data)
-      .filter((d) => d.editing_status === 2) // On ne garde que les films en état validé.
+      // .filter((d) => d.editing_status === 2) // On ne garde que les films en état validé.
       .map((d) => {
         let synopsis = d.synopsis || undefined;
         let minitexte = d.minitexte || undefined;

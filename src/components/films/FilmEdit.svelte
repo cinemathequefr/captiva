@@ -109,10 +109,13 @@
     <div class="container">
       <Form submit={updateFilm} options={{ textareaFitContent: true }}>
         <div>
-          <a
-            title="Voir la page du film sur le site"
-            href="https://www.cinematheque.fr/film/{film.pk}.html"
-            target="film_site_cf">{film.pk}</a
+          <span
+            on:keyup={(e) => {}}
+            class="clip"
+            title="Copier dans le presse-papier"
+            on:click={async () => {
+              await navigator.clipboard.writeText(film.pk);
+            }}>{film.pk}</span
           >
           <div class="status-container">
             <EditingStatus status={$films.currentFilmEditingStatus} size={12} />
@@ -120,6 +123,19 @@
               $films.currentFilmEditingStatus
             ]}
           </div>
+          <a
+            class="small-link"
+            title="Voir la page du film sur le site"
+            href="https://www.cinematheque.fr/film/{film.pk}.html"
+            target="film_site_cf">Site CF</a
+          >
+          <a
+            class="small-link"
+            title="Rechercher le film sur Google"
+            href="https://www.google.com/search?q={film.titrevo ||
+              film.titre} {film.realisateurs} site:en.wikipedia.org"
+            target="film_site_cf">Google</a
+          >
         </div>
         <fieldset>
           <label
@@ -392,6 +408,24 @@
     padding: 0;
     margin: 0;
     font-size: 1rem;
+  }
+
+  .small-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: #666;
+    padding: 0 2px;
+    text-decoration: underline;
+  }
+
+  .clip {
+    display: inline-block;
+    font-size: 1rem;
+    color: #444;
+    background-color: #ccc;
+    padding: 0 4px;
+    margin: 0 2px 0 0;
+    cursor: copy;
   }
 
   label a {
