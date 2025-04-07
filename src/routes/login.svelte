@@ -1,7 +1,9 @@
 <script>
+  import { onMount } from "svelte";
   import { goto } from "@sapper/app";
   import { post } from "../lib/api.js";
   import { token } from "../stores/token.js";
+  import { global } from "../stores/global.js";
   import Form from "../components/lib/Form.svelte";
 
   let email = "";
@@ -12,6 +14,21 @@
   $: {
     $token = $token;
   }
+
+  onMount(async () => {
+    try {
+      const progs = (
+        await (await fetch("https://api.cnmtq.fr/progs")).json()
+      ).data
+        .filter((p) => p.status === 1 || p.status === 2)
+        .map((p) => p.id_prog)
+        .sort();
+
+      $global.progs = progs;
+    } catch (e) {
+      console.log(e);
+    }
+  });
 
   async function logIn() {
     try {
