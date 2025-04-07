@@ -1,0 +1,131 @@
+@import "fonts.css";
+
+/* Josh Comeau's reset: https://www.joshwcomeau.com/css/custom-css-reset/ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Extra rules */
+html {
+  font-size: 100%;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  /* padding: 50px 0 0 0; */
+  background-color: #eee;
+  color: #111;
+  font-family: "IBM Plex Sans", sans-serif;
+  line-height: 1.5;
+}
+
+select {
+  text-overflow: ellipsis;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.5em 0;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.25rem;
+}
+
+a {
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+
+.flexw1 {
+  flex: 0 1 8.333%;
+}
+.flexw2 {
+  flex: 0 1 16.667%;
+}
+.flexw3 {
+  flex: 0 1 25%;
+}
+.flexw4 {
+  flex: 0 1 33.333%;
+}
+.flexw5 {
+  flex: 0 1 41.667%;
+}
+.flexw6 {
+  flex: 0 1 50%;
+}
+.flexw7 {
+  flex: 0 1 58.333%;
+}
+.flexw8 {
+  flex: 0 1 66.667%;
+}
+.flexw9 {
+  flex: 0 1 75%;
+}
+.flexw10 {
+  flex: 0 1 83.333%;
+}
+.flexw11 {
+  flex: 0 1 91.667%;
+}
+.flexw12 {
+  flex: 0 1 100%;
+}
+*/
