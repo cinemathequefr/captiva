@@ -2,5 +2,6 @@
 /node_modules/
 /src/node_modules/@sapper/
 yarn-error.log
-/__sapper__/
+/__sapper__/dev/
+/__sapper__/export/
 package-lock.json
