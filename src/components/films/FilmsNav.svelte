@@ -42,6 +42,9 @@
     } else {
       idCycle = Number(arg.currentTarget.value);
     }
+
+    $global.currentCycleId = idCycle; // Inscrit idCycle dans le store global.
+
     pWhenFilmsFetched = new Promise((resolve, reject) => {
       get(`prog/${$global.currentProgId}/cycle/${idCycle}/films`)
         .then((data) => {
@@ -77,7 +80,10 @@
             <option selected disabled value="">--- Choisir un cycle ---</option>
             {#await cyclesResponse then cycles}
               {#each cycles.data as cycle}
-                <option value={cycle.id_cycle}>
+                <option
+                  value={cycle.id_cycle}
+                  selected={cycle.id_cycle === $global.currentCycleId}
+                >
                   {cycle.id_cycle}
                   -
                   {cycle.titre_cycle}

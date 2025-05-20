@@ -2,6 +2,7 @@
   import _ from "lodash";
   import { get, put } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
+  import { global } from "../../stores/global";
   import Form from "../lib/Form.svelte";
   import cudm from "../../lib/format/cudm";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
@@ -11,6 +12,7 @@
   let oldPk;
   let pk;
   let film;
+  let filmIdCycle = null; // Id du cycle dans le contexte duquel le film a été sélectionné.
 
   let snackbar = {
     visible: false,
@@ -28,6 +30,7 @@
       film.then((f) => {
         $films.currentFilmEditingStatus = f.editing_status;
       });
+      filmIdCycle = $global.currentCycleId;
     }
   }
 
@@ -45,6 +48,7 @@
       "editing_status",
       "ageminimal", // Une chaîne vide (ageminimal non spécifié) renvoie 0.
       "id_boxoffice",
+      "film_id_cycle",
     ]);
 
     if (film.ageminimal === 0) film = _.omit(film, "ageminimal");
@@ -53,6 +57,8 @@
     film = _(film)
       .omitBy((v) => v === "")
       .value();
+
+    console.log(film);
 
     // (NOTE du 2024-05-22) Une requête PUT (et non PATCH) aura pour effet que les champs non transmis (notamment les "" retirées ci-dessus) seront bien réécrits dans la table, avec la valeur par défaut du champ.
     put(`film/${pk}`, film)
@@ -108,6 +114,7 @@
   {#await film then film}
     <div class="container">
       <Form submit={updateFilm} options={{ textareaFitContent: true }}>
+        <input type="hidden" name="film_id_cycle" value={filmIdCycle} />
         <div>
           <span
             on:keyup={(e) => {}}
@@ -281,15 +288,25 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>
-              Mini-texte (remplace les synopsis dans la nouvelle formule du
-              programme papier)
-            </div>
+            <div> Mini-texte </div>
             <textarea
               class="hi"
               name="minitexte"
               on:blur={cleanUp}
               on:paste={cleanUp}>{film.minitexte || ""}</textarea
+            >
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            <div>
+              Mini-texte spécifique au cycle {filmIdCycle} seulement
+            </div>
+            <textarea
+              class="hi2"
+              name="minitexte_ctx_cycle"
+              on:blur={cleanUp}
+              on:paste={cleanUp}>{film.minitexte_ctx_cycle || ""}</textarea
             >
           </label>
         </fieldset>
@@ -439,6 +456,10 @@
 
   .hi {
     background-color: #cfe;
+  }
+
+  .hi2 {
+    background-color: #d8f8d6;
   }
 
   input:disabled {

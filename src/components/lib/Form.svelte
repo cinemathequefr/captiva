@@ -92,7 +92,8 @@
 
   :global(textarea) {
     resize: vertical;
-    height: 8rem;
+    height: 4rem;
+    /* height: 8rem; */
     min-height: 38px;
   }
 
