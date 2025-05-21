@@ -1,6 +1,7 @@
 import { fetchTimeout } from "../lib/utils/fetchTimeout.js";
 import { objectToQuerystring } from "../lib/utils/objectToQuerystring.js";
 import { token } from "../stores/token.js";
+import { api_host } from "../lib/config/connect.js";
 
 let $token; // Note: can't autosubscribe to token in a function, but using the same name for the token value.
 token.subscribe((value) => {
@@ -8,8 +9,6 @@ token.subscribe((value) => {
 });
 
 const controller = process.browser ? new AbortController() : null;
-const base = "https://api.cnmtq.fr";
-// const base = "http://localhost";
 const delay = 10000;
 
 /**
@@ -49,7 +48,7 @@ async function send({ method, path, data }) {
   }
 
   try {
-    let response = await fetchTimeout(`${base}/${path}${query}`, delay, {
+    let response = await fetchTimeout(`${api_host}/${path}${query}`, delay, {
       signal: controller.signal,
       ...opts,
     });

@@ -5,6 +5,7 @@
   import { token } from "../stores/token.js";
   import { global } from "../stores/global.js";
   import Form from "../components/lib/Form.svelte";
+  import { api_host } from "../lib/config/connect.js";
 
   let email = "";
   let password = "";
@@ -17,9 +18,7 @@
 
   onMount(async () => {
     try {
-      const progs = (
-        await (await fetch("https://api.cnmtq.fr/progs")).json()
-      ).data
+      const progs = (await (await fetch(`${api_host}/progs`)).json()).data // await (await fetch("https://api.cnmtq.fr/progs")).json()
         .filter((p) => p.status === 1 || p.status === 2)
         .map((p) => p.id_prog)
         .sort();

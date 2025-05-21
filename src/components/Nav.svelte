@@ -2,6 +2,7 @@
   import Connect from "./Connect.svelte";
   import { token } from "../stores/token.js";
   import { global } from "../stores/global.js";
+  import { api_host } from "../lib/config/connect.js";
 
   // const progs = [334, 335, 341];
 
@@ -32,6 +33,10 @@
           >
         </li>
       {/if}
+
+      <li style="font-family:monospace; font-size:.75rem; opacity:.5"
+        >{api_host}</li
+      >
     </ul>
   </div>
   <div class="right">
