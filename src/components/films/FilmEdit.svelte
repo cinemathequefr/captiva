@@ -288,7 +288,7 @@
         </fieldset>
         <fieldset>
           <label>
-            <div> Mini-texte </div>
+            <div>Mini-texte</div>
             <textarea
               class="hi"
               name="minitexte"
@@ -300,13 +300,16 @@
         <fieldset>
           <label>
             <div>
-              Mini-texte spécifique au cycle {filmIdCycle} seulement
+              Mini-texte pour le cycle {filmIdCycle}
             </div>
             <textarea
               class="hi2"
               name="minitexte_ctx_cycle"
               on:blur={cleanUp}
-              on:paste={cleanUp}>{film.minitexte_ctx_cycle || ""}</textarea
+              on:paste={cleanUp}
+              >{_(film.minitextes_ctx_cycle).find(
+                (i) => i.id_cycle === filmIdCycle
+              )?.contenu || ""}</textarea
             >
           </label>
         </fieldset>
