@@ -299,22 +299,6 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>
-              Mini-texte pour le cycle {filmIdCycle}
-            </div>
-            <textarea
-              class="hi2"
-              name="minitexte_ctx_cycle"
-              on:blur={cleanUp}
-              on:paste={cleanUp}
-              >{_(film.minitextes_ctx_cycle).find(
-                (i) => i.id_cycle === filmIdCycle
-              )?.contenu || ""}</textarea
-            >
-          </label>
-        </fieldset>
-        <fieldset>
-          <label>
             <div>Commentaire (texte FIFR, citation)</div>
             <textarea name="commentaire" on:blur={cleanUp} on:paste={cleanUp}
               >{film.commentaire || ""}</textarea
@@ -334,6 +318,23 @@
             <div>Synopsis JP</div>
             <textarea name="synopsisjp" on:blur={cleanUp} on:paste={cleanUp}
               >{film.synopsisjp || ""}</textarea
+            >
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            <div>
+              Mini-texte spécifique au cycle {filmIdCycle} (sera prioritaire sur
+              le mini-texte pour ce cycle)
+            </div>
+            <textarea
+              class="hi2"
+              name="minitexte_ctx_cycle"
+              on:blur={cleanUp}
+              on:paste={cleanUp}
+              >{_(film.minitextes_ctx_cycle).find(
+                (i) => i.id_cycle === filmIdCycle
+              )?.contenu || ""}</textarea
             >
           </label>
         </fieldset>

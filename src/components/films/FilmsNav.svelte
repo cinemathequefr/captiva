@@ -80,10 +80,7 @@
             <option selected disabled value="">--- Choisir un cycle ---</option>
             {#await cyclesResponse then cycles}
               {#each cycles.data as cycle}
-                <option
-                  value={cycle.id_cycle}
-                  selected={cycle.id_cycle === $global.currentCycleId}
-                >
+                <option value={cycle.id_cycle}>
                   {cycle.id_cycle}
                   -
                   {cycle.titre_cycle}
@@ -158,7 +155,7 @@
       <div class="footer">
         <!-- <FilmsExportJson /> -->
         <FilmsExportJsonNovius
-          filename="PROG{$global.currentProgId}_CYCL{idCycle}_FILMS_NOVIUS.json"
+          filename="PROG{$global.currentProgId}_CYCL{$global.currentCycleId}_FILMS_NOVIUS.json"
         />
       </div>
     {/if}
