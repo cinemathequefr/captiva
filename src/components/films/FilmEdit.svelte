@@ -2,7 +2,8 @@
   import _ from "lodash";
   import { get, put } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
-  import { global } from "../../stores/global";
+  // import { global } from "../../stores/global";
+  import { currentCycleId } from "../../stores/cycles";
   import Form from "../lib/Form.svelte";
   import cudm from "../../lib/format/cudm";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
@@ -30,7 +31,7 @@
       film.then((f) => {
         $films.currentFilmEditingStatus = f.editing_status;
       });
-      filmIdCycle = $global.currentCycleId;
+      filmIdCycle = $currentCycleId;
     }
   }
 

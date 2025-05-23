@@ -3,32 +3,36 @@
   import { get } from "../../lib/api.js";
   import { films } from "../../stores/films";
   import { global } from "../../stores/global";
+  import { currentCycleId } from "../../stores/cycles"; // 2025-05-23 : TEST.
   import EditingStatus from "../EditingStatus.svelte";
   import Form from "../lib/Form.svelte";
-  import FilmsExportJson from "./FilmsExportJson.svelte";
   import FilmsExportJsonNovius from "./FilmsExportJsonNovius.svelte";
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
 
+  import { onMount } from "svelte";
   // if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
-
   let elCycleSelector;
+  let idCycle;
+  let pWhenFilmsFetched; // Promesse (sans valeur de résolution) qui est tenue quand la liste des films est obtenue.
 
   // 2022-12-16 : Quand le programme change, réinitialise le sélecteur de cycles et la liste des films (solution rapide mais pas propre).
   $: {
     $global;
+    // $global;
     cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
     if (elCycleSelector) {
       elCycleSelector.selectedIndex = 0;
-      idCycle = null;
+      $currentCycleId = idCycle = null;
       $films.currentFilmsList = [];
     }
   }
 
-  let idCycle;
-  let pWhenFilmsFetched; // Promesse (sans valeur de résolution) qui est tenue quand la liste des films est obtenue.
+  onMount(() => {
+    idCycle = $currentCycleId = null;
+  });
 
   /**
    * fetchFilmsList
@@ -43,7 +47,7 @@
       idCycle = Number(arg.currentTarget.value);
     }
 
-    $global.currentCycleId = idCycle; // Inscrit idCycle dans le store global.
+    $currentCycleId = idCycle; // Inscrit idCycle dans le store global.
 
     pWhenFilmsFetched = new Promise((resolve, reject) => {
       get(`prog/${$global.currentProgId}/cycle/${idCycle}/films`)
@@ -80,8 +84,12 @@
             <option selected disabled value="">--- Choisir un cycle ---</option>
             {#await cyclesResponse then cycles}
               {#each cycles.data as cycle}
-                <option value={cycle.id_cycle}>
+                <option
+                  value={cycle.id_cycle}
+                  selected={cycle.id_cycle === $currentCycleId}
+                >
                   {cycle.id_cycle}
+                  <!-- {cycle.id_cycle} -->
                   -
                   {cycle.titre_cycle}
                 </option>
@@ -153,9 +161,8 @@
         {/each}
       </ul>
       <div class="footer">
-        <!-- <FilmsExportJson /> -->
         <FilmsExportJsonNovius
-          filename="PROG{$global.currentProgId}_CYCL{$global.currentCycleId}_FILMS_NOVIUS.json"
+          filename="PROG{$global.currentProgId}_CYCL{$currentCycleId}_FILMS_NOVIUS.json"
         />
       </div>
     {/if}
