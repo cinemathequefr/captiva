@@ -164,6 +164,13 @@
               <div class="editing-status">
                 <EditingStatus status={film.editing_status} />
               </div>
+
+              <!-- {#if film.has_seance}
+                <div class="has-seance" title="En grille">⊙</div>
+              {/if} -->
+              {#if film.has_seance}
+                <div class="has-seance" title="En grille">▨</div>
+              {/if}
             </div>
             <div class="director">{film.realisateurs}, {film.annee}</div>
           </li>
@@ -205,6 +212,10 @@
     text-align: right;
   }
 
+  .films-list {
+    scrollbar-width: thin;
+  }
+
   ul {
     padding: 0 4px;
     overflow-y: auto;
@@ -219,12 +230,12 @@
     cursor: pointer;
   }
 
-  li {
+  /* li {
     border-left: solid 5px transparent;
   }
   li.has_seance {
     border-left-color: #862;
-  }
+  } */
 
   li.selected,
   li.selected:nth-child(even) {
@@ -264,6 +275,13 @@
     flex: 0 0 auto;
     align-self: auto;
     padding-left: 2px;
+  }
+
+  div.has-seance {
+    flex: 0 0 auto;
+    align-self: auto;
+    margin-left: auto;
+    color: #936c93;
   }
 
   .director {
