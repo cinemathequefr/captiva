@@ -3,13 +3,12 @@
   import { get } from "../../lib/api.js";
   import { films } from "../../stores/films";
   import { global } from "../../stores/global";
-  import { currentCycleId } from "../../stores/cycles"; // 2025-05-23 : TEST.
+  import { currentCycleId, cyclesList } from "../../stores/cycles"; // 2025-05-23 : TEST.
   import EditingStatus from "../EditingStatus.svelte";
   import Form from "../lib/Form.svelte";
   import FilmsExportJsonNovius from "./FilmsExportJsonNovius.svelte";
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
-
   import { onMount } from "svelte";
   // if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
 
@@ -21,8 +20,15 @@
   // 2022-12-16 : Quand le programme change, réinitialise le sélecteur de cycles et la liste des films (solution rapide mais pas propre).
   $: {
     $global;
-    // $global;
     cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
+    // Inscrit la liste des films de cycles du programme dans le store (NB : pour donner à FilmEdit accès au titre du cycle courant).
+    cyclesResponse.then((res) => {
+      $cyclesList = _(res?.data)
+        .map((c) => [c.id_cycle, c.titre_cycle])
+        .fromPairs()
+        .value();
+    });
+
     if (elCycleSelector) {
       elCycleSelector.selectedIndex = 0;
       $currentCycleId = idCycle = null;
@@ -105,6 +111,7 @@
 
   <div class="tools-container">
     <div class="tools-container-left">
+      <!--
       <XButton
         style="font-size:.75rem;"
         on:click={() => {
@@ -117,6 +124,7 @@
           $global.filmEditOrView = "edit";
         }}>edit</XButton
       >
+      -->
     </div>
 
     <div class="tools-container-right">

@@ -3,7 +3,7 @@
   import { get, put } from "../../lib/api.js";
   import { films } from "../../stores/films.js";
   // import { global } from "../../stores/global";
-  import { currentCycleId } from "../../stores/cycles";
+  import { currentCycleId, cyclesList } from "../../stores/cycles";
   import Form from "../lib/Form.svelte";
   import cudm from "../../lib/format/cudm";
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
@@ -58,8 +58,6 @@
     film = _(film)
       .omitBy((v) => v === "")
       .value();
-
-    console.log(film);
 
     // (NOTE du 2024-05-22) Une requête PUT (et non PATCH) aura pour effet que les champs non transmis (notamment les "" retirées ci-dessus) seront bien réécrits dans la table, avec la valeur par défaut du champ.
     put(`film/${pk}`, film)
@@ -289,7 +287,7 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Mini-texte</div>
+            <div>Mini-texte (MT)</div>
             <textarea
               class="hi"
               name="minitexte"
@@ -325,11 +323,12 @@
         <fieldset>
           <label>
             <div>
-              Mini-texte spécifique au cycle {filmIdCycle} (sera prioritaire sur
-              le mini-texte pour ce cycle)
+              Mini-texte contextuel pour le cycle <span class="inverse">
+                {$cyclesList[filmIdCycle]} ({filmIdCycle})</span
+              >
             </div>
             <textarea
-              class="hi2"
+              class="hi"
               name="minitexte_ctx_cycle"
               on:blur={cleanUp}
               on:paste={cleanUp}
@@ -343,7 +342,7 @@
         <!-- <input name="ageminimal" type="hidden" value={film.ageminimal || null} /> -->
 
         <fieldset>
-          <label style="flex: 0 1 20%;"
+          <label style="flex: 0 1 25%;"
             ><div>Editing_status</div>
             <select name="editing_status" required>
               <option value="0" selected={film.editing_status === 0}
@@ -357,9 +356,9 @@
               >
             </select></label
           >
-          <div style="flex: 0 0 50%;" />
+          <div style="flex: 0 1 35%;" />
 
-          <label style="flex: 0 1 15%;">
+          <label style="flex: 0 1 20%;">
             <div>
               Id Allociné
               {#if !film.id_boxoffice}<a
@@ -379,7 +378,7 @@
             />
           </label>
 
-          <label style="flex: 0 1 15%;"
+          <label style="flex: 0 1 20%;"
             ><div>Âge JP</div>
             <select name="ageminimal">
               <option value="" />
@@ -450,21 +449,24 @@
     cursor: copy;
   }
 
-  label a {
+  form label a {
     font-size: inherit;
     padding: 0 0 0 4px;
   }
 
-  label a.check {
+  form label span.inverse {
+    display: inline-block;
+    background-color: #ccc;
+    padding: 0 2px;
+  }
+
+  form label a.check {
     color: #69f;
   }
 
   .hi {
-    background-color: #cfe;
-  }
-
-  .hi2 {
-    background-color: #d8f8d6;
+    background-color: #e7fef6;
+    /* background-color: #cfe; */
   }
 
   input:disabled {

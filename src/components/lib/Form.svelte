@@ -70,7 +70,7 @@
 
   :global(form label > div) {
     font-size: 0.75rem;
-    color: #888;
+    color: #777;
   }
 
   :global(input[type="text"], textarea, select) {
@@ -123,7 +123,6 @@
   :global(button.yes, input[type="submit"].yes) {
     background-color: #686;
     color: #fff;
-    /* border-color: #396; */
   }
 
   /*
