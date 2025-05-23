@@ -153,6 +153,7 @@
             data-pk={film.pk}
             title={film.pk}
             class:selected={film.pk === $films.currentFilmPk}
+            class:has_seance={film.has_seance}
             tabindex={i + 1}
           >
             <div class="title-container">
@@ -216,6 +217,13 @@
     overflow: hidden;
     line-height: 1.3;
     cursor: pointer;
+  }
+
+  li {
+    border-left: solid 5px transparent;
+  }
+  li.has_seance {
+    border-left-color: #862;
   }
 
   li.selected,
