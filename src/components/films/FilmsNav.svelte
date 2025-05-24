@@ -10,6 +10,7 @@
   import XButton from "../ui/XButton.svelte";
   import Refresh from "../icons/Refresh.svelte";
   import { onMount } from "svelte";
+  import GridIcon from "../icons/GridIcon.svelte";
   // if (!$global.currentProgId) $global.currentProgId = 129; // TODO: fetch "default" currentProgId
 
   let cyclesResponse = get(`prog/${$global.currentProgId}/cycles`);
@@ -165,11 +166,11 @@
                 <EditingStatus status={film.editing_status} />
               </div>
 
-              <!-- {#if film.has_seance}
-                <div class="has-seance" title="En grille">⊙</div>
-              {/if} -->
               {#if film.has_seance}
-                <div class="has-seance" title="En grille">▨</div>
+                <div class="has-seance" title="Film présent en grille"
+                  ><GridIcon></GridIcon></div
+                >
+                <!-- <div class="has-seance" title="En grille">▨</div> -->
               {/if}
             </div>
             <div class="director">{film.realisateurs}, {film.annee}</div>

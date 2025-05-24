@@ -103,6 +103,11 @@
     o = o.replace(/\n/g, ""); // Remplace de \n généré par marked.
     o = o.replace(/<hr>/g, `<hr class="short">`); // Donne la classe voulue à l'élément hr.
     o = nbsp(o); // Placement des espaces insécables.
+    o = o.replace(
+      /^<ol start=\"(\d+)\"><li>([^<]+?)<\/li><\/ol>$/,
+      "<p>$1. $2</p>"
+    ); // Post-traitement du HTML pour rétablir la syntaxe voulue quand le texte Markdown est interprété comme un item de liste numérotée (p. ex. : "1987. Quelque chose se passe...").
+
     return o;
   }
 </script>
