@@ -1,5 +1,5 @@
 <script>
-  export let size = 10;
+  export let size = 12;
 </script>
 
 <svg
@@ -10,26 +10,20 @@
   aria-hidden="true"
   focusable="false"
 >
-  <!-- <path
+  <path
+    style="stroke: var(--color, #747);"
     stroke-width="30"
-    d="M185 15v170H15V15h170ZM100 0v200m100-100H.00000381"
-  /> -->
-  <!-- <path stroke-width="35" d="M185 15v170H15V15h170Z" />
-  <path stroke-width="35" d="M100 0v200m100-100H.00000381" /> -->
-  <path stroke="#000" stroke-width="30" d="M185 15v170H15V15h170Z" />
-  <circle cx="100" cy="100" r="50" />
+    d="M185 15v170H15V15h170Z"
+  />
+  <path
+    style="fill: var(--color, #747);"
+    d="m40 100.104 60.1040764-60.1040764L160.2081528 100.104l-60.1040764 60.1040764z"
+  />
 </svg>
 
 <style>
   svg {
     display: inline-block;
-    opacity: 0.65;
-  }
-
-  path {
-    stroke: var(--color, #747);
-  }
-  circle {
-    fill: var(--color, #747);
+    opacity: 0.75;
   }
 </style>
