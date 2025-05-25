@@ -14,6 +14,7 @@
   let pk;
   let film;
   let filmIdCycle = null; // Id du cycle dans le contexte duquel le film a été sélectionné.
+  let cycleTitle = "";
 
   let snackbar = {
     visible: false,
@@ -32,6 +33,7 @@
         $films.currentFilmEditingStatus = f.editing_status;
       });
       filmIdCycle = $currentCycleId;
+      cycleTitle = $cyclesList[filmIdCycle];
     }
   }
 
@@ -324,7 +326,7 @@
           <label>
             <div>
               Mini-texte contextuel pour le cycle <span class="inverse">
-                {$cyclesList[filmIdCycle]} ({filmIdCycle})</span
+                {cycleTitle} ({filmIdCycle})</span
               >
             </div>
             <textarea
