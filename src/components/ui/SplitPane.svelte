@@ -6,7 +6,7 @@ https://gemini.google.com/app/7a54d915f7e10a5d
   import { onMount, onDestroy, createEventDispatcher } from "svelte";
 
   export let leftInitialSize = "50%";
-  export let minLeftWidth = 250; // New prop: minimum width for the left pane
+  export let minLeftWidth = 50; // New prop: minimum width for the left pane
   export let minRightWidth = 50; // New prop: minimum width for the right pane
 
   let leftDiv; // Renamed 'left' to 'leftDiv' to avoid potential confusion

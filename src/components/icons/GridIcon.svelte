@@ -11,13 +11,13 @@
   focusable="false"
 >
   <path
-    style="stroke: var(--color, #747);"
+    style="stroke: var(--color, #979);"
     stroke-width="30"
     d="M185 15v170H15V15h170Z"
   />
   <path
-    style="fill: var(--color, #747);"
-    d="m40 100.104 60.1040764-60.1040764L160.2081528 100.104l-60.1040764 60.1040764z"
+    style="fill: var(--color, #979);"
+    d="M54 99.9619 99.9619 54l45.9621 45.9619-45.9621 45.9621L54 99.9619Z"
   />
 </svg>
 

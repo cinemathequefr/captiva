@@ -9,7 +9,7 @@
 <svelte:head><title>Captiva - Films</title></svelte:head>
 
 <div class="container">
-  <SplitPane leftInitialSize="25%">
+  <SplitPane leftInitialSize="25%" minLeftWidth={250}>
     <svelte:fragment slot="left">
       <FilmsNav />
     </svelte:fragment>
