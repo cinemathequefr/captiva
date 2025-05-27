@@ -6,6 +6,7 @@
   import { global } from "../stores/global.js";
   import Form from "../components/lib/Form.svelte";
   import { api_host } from "../lib/config/connect.js";
+  import _ from "lodash";
 
   let email = "";
   let password = "";
@@ -18,10 +19,17 @@
 
   onMount(async () => {
     try {
-      const progs = (await (await fetch(`${api_host}/progs`)).json()).data // await (await fetch("https://api.cnmtq.fr/progs")).json()
-        .filter((p) => p.status === 1 || p.status === 2)
+      // 2025-05-27 : On prend les 5 derniers programmes (tous statuts).
+      const progs = _((await (await fetch(`${api_host}/progs`)).json()).data)
+        .orderBy((p) => p.dateDebut)
+        .takeRight(5)
         .map((p) => p.id_prog)
-        .sort();
+        .value();
+      // const progs = (await (await fetch(`${api_host}/progs`)).json()).data
+      //   .filter((p) => p.status === 1 || p.status === 2)
+      //   .map((p) => p.id_prog)
+      //   .sort();
+      console.log(progs);
 
       $global.progs = progs;
     } catch (e) {

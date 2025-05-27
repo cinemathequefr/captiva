@@ -9,12 +9,15 @@
   import convertObjectValuesToNum from "../../../src/lib/utils/convertObjectValuesToNum.js";
   import EditingStatus from "../EditingStatus.svelte";
   import Snackbar from "../ui/Snackbar.svelte";
+  import CountChar from "../lib/CountChar.svelte";
 
   let oldPk;
   let pk;
   let film;
   let filmIdCycle = null; // Id du cycle dans le contexte duquel le film a été sélectionné.
   let cycleTitle = "";
+  let valueMiniTexte = "";
+  let valueMiniTexteCtxCycle = "";
 
   let snackbar = {
     visible: false,
@@ -31,6 +34,10 @@
       film = get(`film/${pk}`);
       film.then((f) => {
         $films.currentFilmEditingStatus = f.editing_status;
+        valueMiniTexte = f.minitexte || "";
+        valueMiniTexteCtxCycle =
+          _(f.minitextes_ctx_cycle).find((i) => i.id_cycle === filmIdCycle)
+            ?.contenu || "";
       });
       filmIdCycle = $currentCycleId;
       cycleTitle = $cyclesList[filmIdCycle];
@@ -289,13 +296,17 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>Mini-texte (MT)</div>
+            <div class="label-container">
+              <div>Mini-texte (MT)</div>
+              <CountChar value={valueMiniTexte}></CountChar>
+            </div>
             <textarea
+              bind:value={valueMiniTexte}
               class="hi"
               name="minitexte"
               on:blur={cleanUp}
-              on:paste={cleanUp}>{film.minitexte || ""}</textarea
-            >
+              on:paste={cleanUp}
+            ></textarea>
           </label>
         </fieldset>
         <fieldset>
@@ -324,20 +335,21 @@
         </fieldset>
         <fieldset>
           <label>
-            <div>
-              Mini-texte contextuel pour le cycle <span class="inverse">
-                {cycleTitle} ({filmIdCycle})</span
-              >
+            <div class="label-container">
+              <div>
+                Mini-texte contextuel pour le cycle <span class="inverse">
+                  {cycleTitle} ({filmIdCycle})</span
+                >
+              </div>
+              <CountChar value={valueMiniTexteCtxCycle}></CountChar>
             </div>
             <textarea
+              bind:value={valueMiniTexteCtxCycle}
               class="hi"
               name="minitexte_ctx_cycle"
               on:blur={cleanUp}
               on:paste={cleanUp}
-              >{_(film.minitextes_ctx_cycle).find(
-                (i) => i.id_cycle === filmIdCycle
-              )?.contenu || ""}</textarea
-            >
+            ></textarea>
           </label>
         </fieldset>
 
@@ -449,6 +461,10 @@
     padding: 0 4px;
     margin: 0 2px 0 0;
     cursor: copy;
+  }
+
+  fieldset {
+    padding-top: 6px;
   }
 
   form label a {

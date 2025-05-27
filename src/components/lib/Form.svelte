@@ -68,8 +68,14 @@
     margin: 0 3px 0 0;
   }
 
+  :global(form .label-container) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   :global(form label > div) {
-    font-size: 0.75rem;
+    font-size: 0.813rem;
     color: #777;
   }
 

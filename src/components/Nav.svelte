@@ -33,10 +33,10 @@
           >
         </li>
       {/if}
-
-      <!-- <li style="font-family:monospace; font-size:.75rem; opacity:.5"
-        >{api_host}</li
-      > -->
+      <!-- 
+      <li style="font-family:monospace; font-size:.75rem; opacity:.5"></li>
+        {api_host}
+      </li> -->
     </ul>
   </div>
   <div class="right">
