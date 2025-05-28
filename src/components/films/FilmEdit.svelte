@@ -10,6 +10,7 @@
   import EditingStatus from "../EditingStatus.svelte";
   import Snackbar from "../ui/Snackbar.svelte";
   import CountChar from "../lib/CountChar.svelte";
+  import { clean_input_on_paste_blur } from "../../lib/clean_input_on_paste_blur.js";
 
   let oldPk;
   let pk;
@@ -161,8 +162,7 @@
               class="bold"
               value={film.titre || ""}
               required
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             /></label
           >
           <label style="flex: 0 1 10%;"
@@ -172,8 +172,7 @@
               type="text"
               class="bold"
               value={film.art || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             /></label
           >
         </fieldset>
@@ -184,8 +183,7 @@
               name="titrevo"
               type="text"
               value={film.titrevo || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             /></label
           >
           <label style="flex: 0 1 10%;"
@@ -194,8 +192,7 @@
               name="artvo"
               type="text"
               value={film.artvo || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             /></label
           >
         </fieldset>
@@ -216,8 +213,7 @@
               name="realisateurs"
               type="text"
               value={film.realisateurs || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
               required
             /></label
           >
@@ -229,8 +225,7 @@
               name="pays"
               type="text"
               value={film.pays || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             />
           </label>
           <label style="flex: 0 1 15%;">
@@ -257,8 +252,7 @@
               name="generique"
               type="text"
               value={film.generique || ""}
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}
+              use:clean_input_on_paste_blur={{ singleLine: true }}
             />
           </label>
         </fieldset>
@@ -280,8 +274,8 @@
             <textarea
               name="adaptation"
               class="single-line"
-              on:blur={cleanUpSingleLine}
-              on:paste={cleanUpSingleLine}>{film.adaptation || ""}</textarea
+              use:clean_input_on_paste_blur={{ singleLine: true }}
+              >{film.adaptation || ""}</textarea
             >
           </label>
         </fieldset>
@@ -289,7 +283,7 @@
         <fieldset>
           <label>
             <div>Synopsis</div>
-            <textarea name="synopsis" on:blur={cleanUp} on:paste={cleanUp}
+            <textarea name="synopsis" use:clean_input_on_paste_blur
               >{film.synopsis || ""}</textarea
             >
           </label>
@@ -304,15 +298,14 @@
               bind:value={valueMiniTexte}
               class="hi"
               name="minitexte"
-              on:blur={cleanUp}
-              on:paste={cleanUp}
+              use:clean_input_on_paste_blur
             ></textarea>
           </label>
         </fieldset>
         <fieldset>
           <label>
             <div>Commentaire (texte FIFR, citation)</div>
-            <textarea name="commentaire" on:blur={cleanUp} on:paste={cleanUp}
+            <textarea name="commentaire" use:clean_input_on_paste_blur
               >{film.commentaire || ""}</textarea
             >
           </label>
@@ -320,15 +313,15 @@
         <fieldset>
           <label>
             <div>Mentions (restauration, ...)</div>
-            <textarea name="mentions" on:blur={cleanUp} on:paste={cleanUp}
+            <textarea name="mentions" use:clean_input_on_paste_blur
               >{film.mentions || ""}</textarea
             >
           </label>
         </fieldset>
         <fieldset>
           <label>
-            <div>Synopsis JP</div>
-            <textarea name="synopsisjp" on:blur={cleanUp} on:paste={cleanUp}
+            <div>Mini-texte JP</div>
+            <textarea name="synopsisjp" use:clean_input_on_paste_blur
               >{film.synopsisjp || ""}</textarea
             >
           </label>
@@ -347,8 +340,7 @@
               bind:value={valueMiniTexteCtxCycle}
               class="hi"
               name="minitexte_ctx_cycle"
-              on:blur={cleanUp}
-              on:paste={cleanUp}
+              use:clean_input_on_paste_blur
             ></textarea>
           </label>
         </fieldset>
