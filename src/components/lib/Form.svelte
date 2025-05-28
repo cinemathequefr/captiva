@@ -16,6 +16,15 @@
         let t = textareas[i];
         updateTextareaHeight(t);
         t.addEventListener("input", () => updateTextareaHeight(t));
+
+        t.addEventListener("blur", () => {
+          if (t.style.height !== "") {
+            setTimeout(() => {
+              t.style.height = "";
+              updateTextareaHeight(t);
+            }, 10);
+          }
+        });
       }
 
       function updateTextareaHeight(t) {
