@@ -13,7 +13,6 @@ import cudm from "../lib/format/cudm";
  * @returns
  */
 export function clean_input_on_paste_blur(node, cudm_opts = {}) {
-  console.log(cudm_opts);
   const handle_event = (e) => {
     setTimeout(() => {
       node.value = cudm(node.value, cudm_opts);
