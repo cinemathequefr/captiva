@@ -107,8 +107,7 @@ function cudm(str, opts) {
   // Désactivé pour test (la même opération a lieu plus loin)
   // o = o.replace(/(\x20){2,}/g, " "); // Remplace 2+ espaces par 1 espace
 
-  o = o.replace(/(\x20)(,|\.(?!\.{2}))/g, "$2"); // Enlève espace devant virgule ou point (mais pas ...)
-  // o = o.replace(/(\x20|&nbsp;)(,|\.(?!\.{2}))/g, "$2"); // Enlève espace devant virgule ou point (mais pas ...)
+  o = o.replace(/(\x20)(,|\.(?!(\.{2}|\d)))/g, "$2"); // Enlève espace devant virgule ou point (mais pas ... ni un chiffre)
   o = o.replace(/…/g, "...");
   o = o.replace(/[’‘]/g, "'");
   o = o.replace(/[“”]/g, '"');
